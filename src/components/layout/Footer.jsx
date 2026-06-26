@@ -24,7 +24,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-5">
-              Premium laptops, accessories, and repair services. Trusted by 10,000+ customers across India.
+              Premium laptops, accessories, and repair services. Trusted by 1,000+ customers across India.
             </p>
             <div className="flex gap-3">
               {[{ icon: FiInstagram, href: '#' }, { icon: FiFacebook, href: '#' }, { icon: FiTwitter, href: '#' }, { icon: FiYoutube, href: '#' }].map(({ icon: Icon, href }, i) => (
@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-400 text-xs">(c) {new Date().getFullYear()} Ozone Lapcare. All rights reserved.</p>
+          <p className="text-slate-400 text-xs">(c)  Copyright OZONESOFT Solutions {new Date().getFullYear()}. All right reserved.</p>
           <div className="flex gap-4">
             <Link to="/terms" className="text-slate-400 hover:text-white text-xs transition-colors">Terms & Conditions</Link>
             <Link to="/privacy" className="text-slate-400 hover:text-white text-xs transition-colors">Privacy Policy</Link>
