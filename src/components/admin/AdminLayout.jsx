@@ -3,9 +3,10 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiStar, FiTool, FiMenu, FiLogOut, FiList, FiAward, FiBell, FiSearch, FiChevronRight } from 'react-icons/fi'
-
+import { FaWhatsapp } from 'react-icons/fa'
 import { logoutUser } from '../../store/authSlice'
 import toast from 'react-hot-toast'
+import logo from '../../assets/logo.png'
 
 const navItems = [
   { to: '/admin', icon: FiGrid, label: 'Dashboard', end: true },
@@ -17,6 +18,7 @@ const navItems = [
   { to: '/admin/reviews', icon: FiStar, label: 'Reviews' },
   { to: '/admin/coupons', icon: FiTag, label: 'Coupons' },
   { to: '/admin/repair', icon: FiTool, label: 'Repair Bookings' },
+  { to: '/admin/whatsapp', icon: FaWhatsapp, label: 'WhatsApp' },
 ]
 
 export default function AdminLayout() {
@@ -34,15 +36,7 @@ export default function AdminLayout() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       <div className="p-5 border-b border-white/20">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center shadow-lg shadow-primary/30">
-            <span className="text-white font-black text-sm">OL</span>
-          </div>
-          <div>
-            <p className="font-black text-sm text-[#111827] leading-none">Ozone Lapcare</p>
-            <p className="text-[10px] text-[#64748B] leading-none mt-0.5">Admin Panel</p>
-          </div>
-        </div>
+        <img src={logo} alt="Ozone Lapcare" className="h-9 w-auto object-contain" />
       </div>
 
       <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">

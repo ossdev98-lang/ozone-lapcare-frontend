@@ -70,11 +70,11 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-slate-400 text-sm">
                 <FiMapPin className="w-4 h-4 mt-0.5 text-secondary shrink-0" />
-                123 Tech Street, Electronic City, Bangalore - 560100
+                306 b-block, Silver Mall, RNT Marg Indore MP – 452001
               </li>
               <li className="flex items-center gap-3 text-slate-400 text-sm">
                 <FiPhone className="w-4 h-4 text-secondary shrink-0" />
-                +91 98765 43210
+                +91 8962872285
               </li>
               <li className="flex items-center gap-3 text-slate-400 text-sm">
                 <FiMail className="w-4 h-4 text-secondary shrink-0" />
@@ -83,7 +83,7 @@ export default function Footer() {
             </ul>
             <div className="mt-5 p-3 rounded-xl bg-white/5 border border-white/10">
               <p className="text-xs text-slate-400 mb-1">Business Hours</p>
-              <p className="text-sm font-medium">Mon - Sat: 9AM - 7PM</p>
+              <p className="text-sm font-medium">Mon - Sat: 10AM - 8PM</p>
               <p className="text-xs text-slate-400">Sunday: 10AM – 5PM</p>
             </div>
           </div>

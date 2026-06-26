@@ -120,6 +120,8 @@ export const adminAPI = {
   getDashboard: () => api.get('/admin/dashboard'),
   getUsers: params => api.get('/admin/users', { params }),
   updateUserStatus: (id, d) => api.put(`/admin/users/${id}/status`, d),
+  sendWhatsappBroadcast: d => api.post('/admin/whatsapp/broadcast', d),
+  getBroadcastTypes: () => api.get('/admin/whatsapp/broadcast-types'),
 }
 
 
