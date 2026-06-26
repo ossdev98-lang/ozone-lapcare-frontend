@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { FiTool, FiStar, FiThumbsUp, FiRefreshCw, FiCheck, FiPhone } from 'react-icons/fi'
 
 const stats = [
-  ['10,000+', 'Happy Customers'],
-  ['5,000+', 'Laptops & Accessories Sold'],
+  ['1,000+', 'Happy Customers'],
+  ['500+', 'Laptops & Accessories Sold'],
   ['6+', 'Years of Industry Experience'],
   ['4.9★', 'Customer Satisfaction Rating'],
 ]
@@ -15,7 +15,7 @@ const timeline = [
   ['2020', 'OZONE LAPCARE established with laptop repair services'],
   ['2021', 'Expanded into refurbished laptop sales'],
   ['2022', 'Introduced genuine accessories and upgrade solutions'],
-  ['2023', 'Served 5,000+ satisfied customers'],
+  ['2023', 'Served 1,000+ satisfied customers'],
   ['2024', 'Expanded services for businesses and institutions'],
   ['2025', 'Continuing to deliver affordable and reliable laptop solutions'],
   

@@ -353,7 +353,7 @@ function ServiceIcon({ icon, className = 'w-6 h-6' }) {
 }
 
 const stats = [
-  { value: '10,000+', label: 'Devices Repaired' },
+  { value: '1,000+', label: 'Devices Repaired' },
   { value: '4.9★', label: 'Average Rating' },
   { value: '24hr', label: 'Avg. Turnaround' },
   { value: '98%', label: 'Customer Satisfaction' },
