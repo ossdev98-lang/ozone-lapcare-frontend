@@ -222,10 +222,11 @@ export default function ProductDetailPage() {
                 {tab === 'specs' && (
                   <motion.div key="specs" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                     {product.specifications?.length ? (
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        {product.specifications.map(s => (
+                      <div className="space-y-2">
+                        {product.specifications.map((s, index) => (
                           <div key={s.id} className="flex gap-3 p-3 rounded-xl bg-white/40">
-                            <span className="text-sm text-[#64748B] w-32 shrink-0">{s.key}</span>
+                            <span className="text-sm text-[#64748B] w-8 shrink-0">{index + 1}.</span>
+                            <span className="text-sm text-[#64748B] w-28 shrink-0">{s.key}</span>
                             <span className="text-sm font-medium text-[#111827]">{s.value}</span>
                           </div>
                         ))}
@@ -235,7 +236,7 @@ export default function ProductDetailPage() {
                 )}
                 {tab === 'desc' && (
                   <motion.div key="desc" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                    <p className="text-[#374151] leading-relaxed whitespace-pre-wrap">{product.description || 'No description available'}</p>
+                    <div className="text-[#374151] leading-relaxed" dangerouslySetInnerHTML={{ __html: product.description || 'No description available' }} />
                   </motion.div>
                 )}
                 {tab === 'reviews' && (

@@ -80,29 +80,54 @@ export default function AdminProducts() {
     e.preventDefault()
     setSaving(true)
     try {
-      const payload = {
-        ...form,
-        tags: form.tags ? form.tags.split(',').map(t => t.trim()) : [],
-        specifications: form.specifications
-      }
+      // Build payload with proper type handling
+      const payload = { ...form }
+      payload.tags = form.tags ? form.tags.split(',').map(t => t.trim()) : []
+      payload.specifications = form.specifications
       
-      let response
+      // Clean up optional/maybe-empty fields to avoid DB numeric errors
+      if (payload.comparePrice === '') delete payload.comparePrice
+      if (!form.isFlashSale || payload.flashSalePrice === '') delete payload.flashSalePrice
+      if (payload.stock === '') delete payload.stock
+      if (payload.categoryId === '') delete payload.categoryId
+      if (payload.brandId === '') delete payload.brandId
+      
+      // Ensure numeric fields are numbers with defaults
+      if (payload.warrantyMonths === '' || payload.warrantyMonths === 0) delete payload.warrantyMonths
+      if (payload.gstPercent === '' || payload.gstPercent === 0) delete payload.gstPercent
+      
       if (editing) {
-        response = await productAPI.update(editing.id, payload)
+        await productAPI.update(editing.id, payload)
+        // Upload images for existing product
+        if (imgFiles.length > 0) {
+          try {
+            const fd = new FormData()
+            imgFiles.forEach(f => fd.append('images', f))
+            await productAPI.uploadImages(editing.id, fd)
+          } catch (imgErr) {
+            toast.error('Product updated but image upload failed')
+          }
+        }
+        qc.invalidateQueries(['admin-products'])
+        setModal(false)
+        toast.success('Product updated!')
       } else {
-        response = await productAPI.create(payload)
+        const response = await productAPI.create(payload)
         const productId = response.data.data.id
         // Upload images if any
-        if (imgFiles.length) {
-          const fd = new FormData()
-          imgFiles.forEach(f => fd.append('images', f))
-          await productAPI.uploadImages(productId, fd)
+        if (imgFiles.length > 0) {
+          try {
+            const fd = new FormData()
+            imgFiles.forEach(f => fd.append('images', f))
+            await productAPI.uploadImages(productId, fd)
+          } catch (imgErr) {
+            toast.error('Product created but image upload failed')
+          }
         }
+        qc.invalidateQueries(['admin-products'])
+        setModal(false)
+        toast.success('Product created!')
       }
-      
-      qc.invalidateQueries(['admin-products'])
-      setModal(false)
-      toast.success(editing ? 'Product updated!' : 'Product created!')
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed')
     } finally {

@@ -22,7 +22,7 @@ export const productAPI = {
   create: d => api.post('/products', d),
   update: (id, d) => api.put(`/products/${id}`, d),
   delete: id => api.delete(`/products/${id}`),
-  uploadImages: (id, fd) => api.post(`/products/${id}/images`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  uploadImages: (id, fd) => api.post(`/products/${id}/images`, fd),
   deleteImage: (id, imgId) => api.delete(`/products/${id}/images/${imgId}`),
 }
 
