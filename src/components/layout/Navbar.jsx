@@ -8,11 +8,12 @@ import toast from 'react-hot-toast'
 import logo from '../../assets/logo.png'
 
 const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/shop', label: 'Shop' },
+  { to: '/category/laptops', label: 'Laptops' },
+  { to: '/category/accessories', label: 'Accessories' },
+  { to: '/category/laptop-parts', label: 'Battery' },
   { to: '/repair', label: 'Repair' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
+  { to: '/category/chargers', label: 'Chargers' },
+  { to: '/shop', label: 'Shop' },
 ]
 
 export default function Navbar() {

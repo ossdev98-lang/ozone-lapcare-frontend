@@ -39,14 +39,14 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h4>
-            <ul className="space-y-2.5">
-              {[['/', 'Home'], ['/shop', 'Shop'], ['/repair', 'Repair Services'], ['/about', 'About Us'], ['/contact', 'Contact'], ['/warranty', 'Warranty Policy']].map(([to, label]) => (
-                <li key={to}>
-                  <Link to={to} className="text-slate-400 hover:text-white text-sm transition-colors duration-200 hover:translate-x-1 inline-block">
-                    {label}
-                  </Link>
-                </li>
-              ))}
+<ul className="space-y-2.5">
+               {[['/', 'Home'], ['/shop', 'Shop'], ['/repair', 'Repair Services'], ['/about', 'About Us'], ['/contact', 'Contact'], ['/warranty', 'Warranty Policy']].map(([to, label]) => (
+                 <li key={to}>
+                   <Link to={to} className="text-slate-400 hover:text-white text-sm transition-colors duration-200 hover:translate-x-1 inline-block">
+                     {label}
+                   </Link>
+                 </li>
+               ))}
             </ul>
           </div>
 

@@ -128,7 +128,7 @@ export default function App() {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
           </Route>
 
-{/* Admin Panel */}
+          {/* Admin Panel */}
           <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="products" element={<AdminProducts />} />
