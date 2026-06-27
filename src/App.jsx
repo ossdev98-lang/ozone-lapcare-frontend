@@ -47,6 +47,7 @@ const AdminReviews = lazy(() => import('./pages/admin/AdminReviews'))
 const AdminCoupons = lazy(() => import('./pages/admin/AdminCoupons'))
 const AdminRepair = lazy(() => import('./pages/admin/AdminRepair'))
 const AdminWhatsapp = lazy(() => import('./pages/admin/AdminWhatsapp'))
+const AdminOffers = lazy(() => import('./pages/admin/AdminOffers'))
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -127,7 +128,7 @@ export default function App() {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
           </Route>
 
-          {/* Admin Panel */}
+{/* Admin Panel */}
           <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="products" element={<AdminProducts />} />
@@ -139,6 +140,7 @@ export default function App() {
             <Route path="coupons" element={<AdminCoupons />} />
             <Route path="repair" element={<AdminRepair />} />
             <Route path="whatsapp" element={<AdminWhatsapp />} />
+            <Route path="offers" element={<AdminOffers />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

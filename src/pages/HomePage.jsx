@@ -4,6 +4,7 @@ import Hero from '../components/home/Hero'
 import Categories from '../components/home/Categories'
 import { BrandsSection, FeaturedProducts, FlashSale } from '../components/home/Sections'
 import { Testimonials, Newsletter } from '../components/home/Testimonials'
+import OfferSlider from '../components/home/OfferSlider'
 import { useQuery } from '@tanstack/react-query'
 import { productAPI } from '../api/services'
 import ProductCard from '../components/product/ProductCard'
@@ -106,6 +107,7 @@ export default function HomePage() {
         <meta name="description" content="Buy laptops, gaming laptops, refurbished laptops, parts and accessories. Expert repair services and dependable support in India." />
       </Helmet>
       <Hero />
+      <OfferSlider />
       <PromiseBand />
       <Categories />
       <BrandsSection />

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiStar, FiTool, FiMenu, FiLogOut, FiList, FiAward, FiBell, FiSearch, FiChevronRight } from 'react-icons/fi'
+import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiStar, FiTool, FiMenu, FiLogOut, FiList, FiAward, FiBell, FiSearch, FiChevronRight, FiGift } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 import { logoutUser } from '../../store/authSlice'
 import toast from 'react-hot-toast'
@@ -17,6 +17,7 @@ const navItems = [
   { to: '/admin/customers', icon: FiUsers, label: 'Customers' },
   { to: '/admin/reviews', icon: FiStar, label: 'Reviews' },
   { to: '/admin/coupons', icon: FiTag, label: 'Coupons' },
+  { to: '/admin/offers', icon: FiGift, label: 'Offers' },
   { to: '/admin/repair', icon: FiTool, label: 'Repair Bookings' },
   { to: '/admin/whatsapp', icon: FaWhatsapp, label: 'WhatsApp' },
 ]

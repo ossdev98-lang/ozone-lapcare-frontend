@@ -115,6 +115,15 @@ export const notificationAPI = {
   markRead: id => api.put(`/notifications/${id}/read`),
 }
 
+// Offers
+export const offerAPI = {
+  getAll: () => api.get('/offers'),
+  getAdmin: () => api.get('/admin/offers'),
+  create: d => api.post('/admin/offers', d),
+  update: (id, d) => api.put(`/admin/offers/${id}`, d),
+  delete: id => api.delete(`/admin/offers/${id}`),
+}
+
 // Admin
 export const adminAPI = {
   getDashboard: () => api.get('/admin/dashboard'),
