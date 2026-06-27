@@ -6,16 +6,6 @@ import { FiSearch, FiHeart, FiShoppingCart, FiBell, FiUser, FiMenu, FiX, FiChevr
 import { logoutUser } from '../../store/authSlice'
 import toast from 'react-hot-toast'
 import logo from '../../assets/logo.png'
-
-const navLinks = [
-  { to: '/category/laptops', label: 'Laptops' },
-  { to: '/category/accessories', label: 'Accessories' },
-  { to: '/category/laptop-parts', label: 'Battery' },
-  { to: '/repair', label: 'Repair' },
-  { to: '/category/chargers', label: 'Chargers' },
-  { to: '/shop', label: 'Shop' },
-]
-
 export default function Navbar() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -27,6 +17,15 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('')
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef(null)
+
+  const navLinks = [
+    { to: '/category/laptops', label: 'Laptops' },
+    { to: '/category/accessories', label: 'Accessories' },
+    { to: '/category/laptop-battery', label: 'Battery' },
+    { to: '/repair', label: 'Repair' },
+    { to: '/category/chargers', label: 'Chargers' },
+    { to: '/shop', label: 'Shop' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
