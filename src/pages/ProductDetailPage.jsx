@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { FiShoppingCart, FiHeart, FiStar, FiTruck, FiShield, FiRefreshCw, FiShare2, FiMinus, FiPlus, FiChevronRight } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { productAPI, reviewAPI, wishlistAPI } from '../api/services'
+import { productAPI, reviewAPI, wishlistAPI, settingsAPI } from '../api/services'
 import { addToCart } from '../store/cartSlice'
 import { formatPrice, getDiscount } from '../utils/helpers'
 import ProductCard from '../components/product/ProductCard'
@@ -27,6 +27,8 @@ export default function ProductDetailPage() {
     queryKey: ['product', slug],
     queryFn: () => productAPI.getOne(slug).then(r => r.data.data)
   })
+  const { data: settings } = useQuery({ queryKey: ['settings-public'], queryFn: () => settingsAPI.getPublic().then(r => r.data.data) })
+  const freeShippingThreshold = settings?.freeShippingThreshold || 999
 
   const { data: related } = useQuery({
     queryKey: ['related', product?.id],
@@ -189,7 +191,7 @@ export default function ProductDetailPage() {
 
               {/* Trust Badges */}
               <div className="grid grid-cols-3 gap-3">
-                {[[FiTruck, 'Free Delivery', 'On orders ₹999+'], [FiShield, 'Genuine Product', 'Brand warranty'], [FiRefreshCw, 'Easy Returns', '7-day returns']].map(([Icon, title, sub]) => (
+                 {[[FiTruck, 'Free Delivery', `On orders ₹${freeShippingThreshold}+`], [FiShield, 'Genuine Product', 'Brand warranty'], [FiRefreshCw, 'Easy Returns', '7-day returns']].map(([Icon, title, sub]) => (
                   <div key={title} className="glass-card p-3 text-center">
                     <Icon className="w-5 h-5 text-primary mx-auto mb-1.5" />
                     <p className="text-xs font-semibold text-[#111827]">{title}</p>

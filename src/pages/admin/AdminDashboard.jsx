@@ -4,19 +4,9 @@ import { Helmet } from 'react-helmet-async'
 import { FiDollarSign, FiShoppingBag, FiPackage, FiUsers, FiArrowUp, FiArrowDown } from 'react-icons/fi'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
 import { adminAPI } from '../../api/services'
-import { formatPrice, formatDate, orderStatusColor } from '../../utils/helpers'
+import { formatPrice, orderStatusColor } from '../../utils/helpers'
 import Badge from '../../components/ui/Badge'
 import { StatCardSkeleton } from '../../components/ui/Skeleton'
-
-const revenueData = [
-  { month: 'Jan', revenue: 42000, orders: 28 },
-  { month: 'Feb', revenue: 58000, orders: 35 },
-  { month: 'Mar', revenue: 47000, orders: 30 },
-  { month: 'Apr', revenue: 73000, orders: 48 },
-  { month: 'May', revenue: 91000, orders: 60 },
-  { month: 'Jun', revenue: 85000, orders: 55 },
-  { month: 'Jul', revenue: 110000, orders: 72 },
-]
 
 export default function AdminDashboard() {
   const { data, isLoading } = useQuery({
@@ -30,6 +20,8 @@ export default function AdminDashboard() {
     { label: 'Products', value: data?.totalProducts || 0, icon: FiPackage, color: 'from-emerald-500 to-teal-500', change: '+4.1%', up: true },
     { label: 'Customers', value: data?.totalCustomers || 0, icon: FiUsers, color: 'from-orange-500 to-red-500', change: '+18.7%', up: true },
   ]
+
+  const monthlyData = data?.monthlyData || []
 
   return (
     <>
@@ -67,7 +59,7 @@ export default function AdminDashboard() {
           <div className="lg:col-span-2 glass-card p-6">
             <h3 className="font-bold text-[#111827] mb-5">Revenue Overview</h3>
             <ResponsiveContainer width="100%" height={250}>
-              <AreaChart data={revenueData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+              <AreaChart data={monthlyData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#2875B7" stopOpacity={0.3} />
@@ -87,7 +79,7 @@ export default function AdminDashboard() {
           <div className="glass-card p-6">
             <h3 className="font-bold text-[#111827] mb-5">Orders / Month</h3>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={revenueData} margin={{ top: 5, right: 5, left: -30, bottom: 0 }}>
+              <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: -30, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                 <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#94a3b8' }} />
                 <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} />

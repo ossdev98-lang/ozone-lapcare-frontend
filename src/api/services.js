@@ -133,4 +133,20 @@ export const adminAPI = {
   getBroadcastTypes: () => api.get('/admin/whatsapp/broadcast-types'),
 }
 
+// Ads
+export const adAPI = {
+  getActive: () => api.get('/ads'),
+  getAll: () => api.get('/admin/ads'),
+  create: d => api.post('/admin/ads', d, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  update: (id, d) => api.put(`/admin/ads/${id}`, d, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  delete: id => api.delete(`/admin/ads/${id}`),
+}
+
+// Settings
+export const settingsAPI = {
+  getPublic: () => api.get('/settings/public'),
+  getAll: () => api.get('/admin/settings'),
+  update: (key, value) => api.put(`/admin/settings/${key}`, { key, value }),
+}
+
 

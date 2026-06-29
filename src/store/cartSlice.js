@@ -26,7 +26,7 @@ export const applyCoupon = createAsyncThunk('cart/coupon', async (code, { dispat
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: { items: [], subtotal: 0, tax: 0, shipping: 0, total: 0, coupon: null, discount: 0, loading: false, error: null },
+  initialState: { items: [], subtotal: 0, tax: 0, shipping: 0, total: 0, coupon: null, discount: 0, loading: false, error: null, freeShippingThreshold: 999, shippingCharge: 99 },
   reducers: {},
   extraReducers: builder => {
     builder
@@ -39,6 +39,8 @@ const cartSlice = createSlice({
         state.shipping = payload?.shipping || 0
         state.total = payload?.total || 0
         state.coupon = payload?.coupon || null
+        state.freeShippingThreshold = payload?.freeShippingThreshold || 999
+        state.shippingCharge = payload?.shippingCharge ?? 99
       })
       .addCase(fetchCart.rejected, state => { state.loading = false })
   }

@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 export default function CartPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { items, subtotal, tax, shipping, total, coupon, loading } = useSelector(s => s.cart)
+  const { items, subtotal, tax, shipping, total, coupon, freeShippingThreshold } = useSelector(s => s.cart)
   const { user } = useSelector(s => s.auth)
   const [couponCode, setCouponCode] = useState('')
   const [couponLoading, setCouponLoading] = useState(false)
@@ -162,8 +162,10 @@ export default function CartPage() {
                   Proceed to Checkout <FiArrowRight className="w-5 h-5" />
                 </Button>
 
-                {shipping > 0 && (
-                  <p className="text-xs text-[#64748B] text-center mt-3">Add ₹{formatPrice(999 - subtotal)} more for free shipping</p>
+                {shipping === 0 && subtotal > 0 ? (
+                  <p className="text-xs text-emerald-600 text-center mt-3">🎉 You've got free shipping!</p>
+                ) : shipping > 0 && (
+                  <p className="text-xs text-[#64748B] text-center mt-3">Add ₹{formatPrice(Math.max(0, freeShippingThreshold - subtotal))} more for free shipping</p>
                 )}
               </div>
             </div>

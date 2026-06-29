@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FiArrowRight, FiCheckCircle, FiCpu, FiHeadphones, FiMonitor, FiShield, FiTool, FiTruck } from 'react-icons/fi'
 import heroImage from '../../assets/Dark Academia.jpg'
+import { useQuery } from '@tanstack/react-query'
+import { settingsAPI } from '../../api/services'
 
 const quickLinks = [
   { label: 'Gaming Laptops', to: '/category/gaming-laptops', icon: FiMonitor },
@@ -16,13 +18,16 @@ const stats = [
   ['24/7', 'Expert support'],
 ]
 
-const trustItems = [
+const trustItems = (threshold) => [
   [FiShield, 'Genuine Products'],
-  [FiTruck, 'Free Delivery on Rs. 999+'],
+  [FiTruck, `Free Delivery on Rs. ${threshold}+`],
   [FiHeadphones, 'Expert Support'],
 ]
 
 export default function Hero() {
+  const { data: settings } = useQuery({ queryKey: ['settings-public'], queryFn: () => settingsAPI.getPublic().then(r => r.data.data) })
+  const threshold = settings?.freeShippingThreshold || 999
+
   return (
     <section className="relative min-h-[92vh] overflow-hidden bg-[#0b1220]">
       <img
@@ -108,7 +113,7 @@ export default function Hero() {
 
       <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-[#08101f]/75 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {trustItems.map(([Icon, text]) => (
+          {trustItems(threshold).map(([Icon, text]) => (
             <div key={text} className="flex items-center justify-center gap-2 text-slate-200 text-sm font-semibold">
               <Icon className="w-4 h-4 text-cyan-300" /> {text}
             </div>

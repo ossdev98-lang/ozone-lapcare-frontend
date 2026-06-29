@@ -5,6 +5,7 @@ import Categories from '../components/home/Categories'
 import { BrandsSection, FeaturedProducts, FlashSale } from '../components/home/Sections'
 import { Testimonials, Newsletter } from '../components/home/Testimonials'
 import OfferSlider from '../components/home/OfferSlider'
+import AdPopup from '../components/home/AdPopup'
 import { useQuery } from '@tanstack/react-query'
 import { productAPI } from '../api/services'
 import ProductCard from '../components/product/ProductCard'
@@ -117,6 +118,7 @@ export default function HomePage() {
       <NewArrivals />
       <Testimonials />
       <Newsletter />
+      <AdPopup />
     </>
   )
 }

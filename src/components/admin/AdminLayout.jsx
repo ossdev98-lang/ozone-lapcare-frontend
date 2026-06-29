@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiStar, FiTool, FiMenu, FiLogOut, FiList, FiAward, FiBell, FiSearch, FiChevronRight, FiGift } from 'react-icons/fi'
-import { FaWhatsapp } from 'react-icons/fa'
+import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiStar, FiTool, FiMenu, FiLogOut, FiList, FiAward, FiBell, FiSearch, FiChevronRight, FiSettings } from 'react-icons/fi'
 import { logoutUser } from '../../store/authSlice'
 import toast from 'react-hot-toast'
 import logo from '../../assets/logo.png'
@@ -16,10 +15,8 @@ const navItems = [
   { to: '/admin/orders', icon: FiShoppingBag, label: 'Orders' },
   { to: '/admin/customers', icon: FiUsers, label: 'Customers' },
   { to: '/admin/reviews', icon: FiStar, label: 'Reviews' },
-  { to: '/admin/coupons', icon: FiTag, label: 'Coupons' },
-  { to: '/admin/offers', icon: FiGift, label: 'Offers' },
   { to: '/admin/repair', icon: FiTool, label: 'Repair Bookings' },
-  { to: '/admin/whatsapp', icon: FaWhatsapp, label: 'WhatsApp' },
+  { to: '/admin/settings', icon: FiSettings, label: 'Settings' },
 ]
 
 export default function AdminLayout() {

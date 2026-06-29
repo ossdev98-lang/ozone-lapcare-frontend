@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload, FiSearch, FiEye, FiPackage, FiTag, FiStar, FiZap, FiFilter } from 'react-icons/fi'
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload, FiSearch, FiEye, FiPackage, FiTag, FiStar, FiZap, FiFilter, FiFileText } from 'react-icons/fi'
 import { productAPI, categoryAPI, brandAPI } from '../../api/services'
 import { formatPrice } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
@@ -39,6 +39,7 @@ export default function AdminProducts() {
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [imgFiles, setImgFiles] = useState([])
+  const [bulkSpecText, setBulkSpecText] = useState('')
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin-products', page, search, status, category, brand, condition, isFeatured, isFlashSale],
@@ -85,8 +86,10 @@ export default function AdminProducts() {
       payload.tags = form.tags ? form.tags.split(',').map(t => t.trim()) : []
       payload.specifications = form.specifications
       
-      // Clean up optional/maybe-empty fields to avoid DB numeric errors
-      if (payload.comparePrice === '') delete payload.comparePrice
+      // Clean up optional/maybe-empty fields
+      if (payload.comparePrice === '') payload.comparePrice = null
+      // Clean up optional/maybe-empty fields
+      if (payload.comparePrice === '') payload.comparePrice = null
       if (!form.isFlashSale || payload.flashSalePrice === '') delete payload.flashSalePrice
       if (payload.stock === '') delete payload.stock
       if (payload.categoryId === '') delete payload.categoryId
@@ -104,7 +107,7 @@ export default function AdminProducts() {
             const fd = new FormData()
             imgFiles.forEach(f => fd.append('images', f))
             await productAPI.uploadImages(editing.id, fd)
-          } catch (imgErr) {
+          } catch {
             toast.error('Product updated but image upload failed')
           }
         }
@@ -120,7 +123,7 @@ export default function AdminProducts() {
             const fd = new FormData()
             imgFiles.forEach(f => fd.append('images', f))
             await productAPI.uploadImages(productId, fd)
-          } catch (imgErr) {
+          } catch {
             toast.error('Product created but image upload failed')
           }
         }
@@ -153,6 +156,40 @@ export default function AdminProducts() {
     return { ...f, specifications: specs }
   })
   const removeSpec = idx => setForm(f => ({ ...f, specifications: f.specifications?.filter((_, i) => i !== idx) || [] }))
+  const clearSpecs = () => setForm(f => ({ ...f, specifications: [] }))
+  const importSpecs = () => {
+    const text = bulkSpecText.trim()
+    if (!text) return
+    const lines = text.split('\n')
+    const newSpecs = []
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed) continue
+      let idx = trimmed.indexOf(':')
+      if (idx !== -1) {
+        newSpecs.push({ key: trimmed.slice(0, idx).trim(), value: trimmed.slice(idx + 1).trim() })
+        continue
+      }
+      idx = trimmed.indexOf('=')
+      if (idx !== -1) {
+        newSpecs.push({ key: trimmed.slice(0, idx).trim(), value: trimmed.slice(idx + 1).trim() })
+        continue
+      }
+      const tabIdx = trimmed.indexOf('\t')
+      if (tabIdx !== -1) {
+        newSpecs.push({ key: trimmed.slice(0, tabIdx).trim(), value: trimmed.slice(tabIdx + 1).trim() })
+        continue
+      }
+      const dashParts = trimmed.split('-')
+      if (dashParts.length >= 2) {
+        newSpecs.push({ key: dashParts[0].trim(), value: dashParts.slice(1).join('-').trim() })
+        continue
+      }
+      newSpecs.push({ key: trimmed, value: '' })
+    }
+    setForm(f => ({ ...f, specifications: [...(f.specifications || []), ...newSpecs] }))
+    setBulkSpecText('')
+  }
 
   const pageNums = []
   if (pagination?.pages) {
@@ -604,9 +641,32 @@ export default function AdminProducts() {
                     label: 'Specifications',
                     content: (
                       <div className="space-y-4">
+                        <div className="p-4 rounded-2xl bg-white/30 border border-white/30">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider flex items-center gap-1.5">
+                              <FiFileText className="w-3.5 h-3.5" /> Bulk Import
+                            </p>
+                            <span className="text-[10px] text-[#94a3b8]">Format: Key: Value (one per line)</span>
+                          </div>
+                          <textarea
+                            value={bulkSpecText}
+                            onChange={e => setBulkSpecText(e.target.value)}
+                            placeholder={`RAM: 16GB DDR4\nStorage: 512GB SSD\nDisplay: 15.6" FHD\nProcessor: Intel i7 12th Gen`}
+                            className="w-full h-28 rounded-xl border border-white/40 bg-white/60 p-3 text-sm text-[#111827] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-primary/30 resize-y font-mono"
+                          />
+                          <div className="flex justify-end mt-2">
+                            <Button type="button" size="sm" onClick={importSpecs}><FiPlus className="w-3 h-3" /> Import Specs</Button>
+                          </div>
+                        </div>
+
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-semibold text-[#111827]">Product Specifications</p>
-                          <Button type="button" size="sm" onClick={addSpec}><FiPlus className="w-3 h-3" /> Add Spec</Button>
+                          <div className="flex gap-2">
+                            {form.specifications?.length > 0 && (
+                              <button type="button" onClick={clearSpecs} className="text-xs text-red-500 hover:text-red-600 font-medium px-2 py-1 cursor-pointer">Clear All</button>
+                            )}
+                            <Button type="button" size="sm" onClick={addSpec}><FiPlus className="w-3 h-3" /> Add Spec</Button>
+                          </div>
                         </div>
                         {form.specifications?.map((spec, idx) => (
                           <div key={idx} className="flex gap-2 items-end">
