@@ -22,7 +22,7 @@ const sections = [
 
 export default function AdminSettings() {
   const qc = useQueryClient()
-  const [active, setActive] = useState('store')
+  const [active, setActive] = useState('profile')
 
   // Store settings
   const { data: settingsData } = useQuery({ queryKey: ['admin-settings'], queryFn: () => settingsAPI.getAll().then(r => r.data.data) })
