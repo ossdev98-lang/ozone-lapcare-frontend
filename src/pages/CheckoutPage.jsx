@@ -18,12 +18,11 @@ const paymentMethods = [
 
 export default function CheckoutPage() {
   const navigate = useNavigate()
-  const { items, subtotal, tax, shipping, total } = useSelector(s => s.cart)
+  const { items, subtotal, tax, shipping, total, discount } = useSelector(s => s.cart)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [paymentMethod, setPaymentMethod] = useState('cod')
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
-  const [discount] = useState(0)
 
   const { data: addresses, refetch: refetchAddresses } = useQuery({
     queryKey: ['addresses'],
@@ -86,7 +85,7 @@ export default function CheckoutPage() {
     } catch (err) { toast.error(err.response?.data?.message || 'Failed to place order') } finally { setLoading(false) }
   }
 
-  const grandTotal = total - discount
+  const grandTotal = total
 
   return (
     <>

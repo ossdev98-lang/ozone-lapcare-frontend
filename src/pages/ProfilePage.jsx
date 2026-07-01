@@ -9,7 +9,7 @@ import { FiUser, FiMail, FiPhone, FiSave, FiHeart, FiTrash2, FiTool,
   FiPackage, FiPhoneCall, FiTruck, FiArrowRight,
   FiChevronDown, FiChevronUp, FiFileText, FiDownloadCloud,
   FiSliders, FiTerminal, FiRefreshCw, FiPower,
-  FiAlertCircle, FiDollarSign, FiMessageSquare, FiCalendar } from 'react-icons/fi'
+  FiAlertCircle, FiDollarSign, FiMessageSquare, FiCalendar, FiDownload } from 'react-icons/fi'
 import { authAPI, wishlistAPI, repairAPI } from '../api/services'
 import { fetchMe } from '../store/authSlice'
 import { formatPrice } from '../utils/helpers'
@@ -195,6 +195,127 @@ export function MyRepairBookingsPage() {
     }
   }
 
+  const formatDate = date => new Date(date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+
+  const downloadRepairInvoice = async (b) => {
+    const { jsPDF } = await import('jspdf')
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' })
+    const W = 595
+    const left = 40
+    const right = W - 40
+
+    const gstRate = 18
+    const total = parseFloat(b.confirmBookingAmount) || 0
+    const baseAmount = total / (1 + gstRate / 100)
+    const gstAmount = total - baseAmount
+
+    doc.setFillColor(25, 70, 120)
+    doc.rect(0, 0, W, 90, 'F')
+    doc.setFillColor(40, 100, 160)
+    doc.rect(0, 82, W, 8, 'F')
+
+    doc.setTextColor(255, 255, 255)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(24)
+    doc.text('OZONE LAPCARE', left, 40)
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.text('306 B-Block, Silver Mall, RNT Marg, Indore MP - 452001', left, 58)
+    doc.text('Phone: +91 8962872285 | support@ozonelapcare.com', left, 72)
+
+    doc.setTextColor(255, 255, 255)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(13)
+    doc.text('REPAIR INVOICE', right, 38, { align: 'right' })
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.text(`Invoice No: RB-${b.id}`, right, 55, { align: 'right' })
+    doc.text(`Date: ${formatDate(b.createdAt)}`, right, 68, { align: 'right' })
+
+    let y = 110
+
+    doc.setFillColor(248, 250, 252)
+    doc.setDrawColor(200, 210, 220)
+    doc.roundedRect(left, y, right - left, 90, 4, 4, 'FD')
+
+    doc.setTextColor(40, 70, 110)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(10)
+    doc.text('BILL TO', left + 14, y + 22)
+
+    doc.setTextColor(50, 50, 50)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(9)
+    doc.text(b.name || 'Customer', left + 14, y + 38)
+    doc.setFont('helvetica', 'normal')
+    doc.text(`Email: ${b.email || ''}`, left + 14, y + 52)
+    doc.text(`Phone: ${b.phone || ''}`, left + 14, y + 66)
+
+    y += 108
+
+    doc.setFillColor(248, 250, 252)
+    doc.setDrawColor(200, 210, 220)
+    doc.roundedRect(left, y, right - left, 120, 4, 4, 'FD')
+
+    let ty = y + 10
+    doc.setTextColor(40, 70, 110)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(10)
+    doc.text('SERVICE DETAILS', left + 14, ty)
+
+    ty += 20
+    doc.setTextColor(50, 50, 50)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.text(`Service: ${b.service?.name || 'Repair'}`, left + 14, ty)
+    ty += 16
+    doc.text(`Laptop: ${b.laptopBrand || ''} ${b.laptopModel || ''}`, left + 14, ty)
+    ty += 16
+    doc.text(`Issue: ${b.issue || ''}`, left + 14, ty)
+    ty += 16
+
+    ty += 10
+    const summaryW = 260
+    const summaryX = right - summaryW
+    doc.roundedRect(summaryX, y + 80, summaryW - 12, 50, 4, 4, 'FD')
+
+    let totalY = y + 88
+    doc.setTextColor(80, 80, 80)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.text('Subtotal (ex-GST)', summaryX + 14, totalY)
+    doc.text(`₹${baseAmount.toFixed(2)}`, right - 14, totalY, { align: 'right' })
+    totalY += 16
+    doc.text(`GST @ ${gstRate}%`, summaryX + 14, totalY)
+    doc.text(`₹${gstAmount.toFixed(2)}`, right - 14, totalY, { align: 'right' })
+    totalY += 24
+    doc.setFillColor(40, 70, 110)
+    doc.roundedRect(summaryX + 6, totalY, summaryW - 12, 22, 3, 3, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFont('helvetica', 'bold')
+    doc.text('TOTAL', summaryX + 16, totalY + 14)
+    doc.text(`₹${total.toFixed(2)}`, right - 16, totalY + 14, { align: 'right' })
+
+    doc.setTextColor(120, 120, 120)
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(8)
+    doc.text('* Prices are GST-inclusive', left, 760)
+
+    doc.setFillColor(248, 250, 252)
+    doc.rect(0, 760, W, 80, 'F')
+    doc.setDrawColor(200, 210, 220)
+    doc.line(left, 760, right, 760)
+
+    doc.setTextColor(100, 100, 100)
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    doc.text('Thank you for choosing Ozone Lapcare!', W/2, 784, { align: 'center' })
+
+    doc.save(`Repair_Invoice_RB-${b.id}.pdf`)
+  }
+
   const statusColor = {
     pending:     { bg: 'bg-yellow-50',  text: 'text-yellow-700',  border: 'border-yellow-200',  dot: 'bg-yellow-400' },
     confirmed:   { bg: 'bg-blue-50',    text: 'text-blue-700',    border: 'border-blue-200',    dot: 'bg-blue-400' },
@@ -272,17 +393,34 @@ export function MyRepairBookingsPage() {
                       </div>
 
                       <div className="space-y-3">
-                        {b.estimatedCost ? (
-                          <div className="p-3 rounded-xl bg-blue-50 border border-blue-100">
-                            <p className="text-xs font-semibold text-blue-600 mb-1 flex items-center gap-1.5"><FiDollarSign className="w-3.5 h-3.5" />Estimated Cost</p>
-                            <p className="text-lg font-black text-blue-700">₹{b.estimatedCost}</p>
-                          </div>
-                        ) : (
-                          <div className="p-3 rounded-xl bg-slate-50">
-                            <p className="text-xs font-semibold text-[#64748B] mb-1">Estimated Cost</p>
-                            <p className="text-sm text-[#94a3b8] italic">Pending assessment</p>
-                          </div>
-                        )}
+{b.estimatedCost ? (
+                           <div className="p-3 rounded-xl bg-blue-50 border border-blue-100">
+                             <p className="text-xs font-semibold text-blue-600 mb-1 flex items-center gap-1.5"><FiDollarSign className="w-3.5 h-3.5" />Estimated Cost</p>
+                             <p className="text-lg font-black text-blue-700">₹{b.estimatedCost}</p>
+                           </div>
+                         ) : (
+                           <div className="p-3 rounded-xl bg-slate-50">
+                             <p className="text-xs font-semibold text-[#64748B] mb-1">Estimated Cost</p>
+                             <p className="text-sm text-[#94a3b8] italic">Pending assessment</p>
+                           </div>
+                         )}
+
+                         {/* Confirm Booking Amount with GST breakdown */}
+                         {b.confirmBookingAmount != null && b.confirmBookingAmount !== '' ? (
+                           <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100">
+                             <p className="text-xs font-semibold text-emerald-700 mb-2 flex items-center gap-1.5"><FiDollarSign className="w-3.5 h-3.5" />Payment Breakdown</p>
+                             <div className="space-y-1 text-xs">
+                               <div className="flex justify-between">
+                                 <span className="text-emerald-600">Amount (ex-GST)</span>
+                                 <span className="font-bold text-emerald-800">₹{(parseFloat(b.confirmBookingAmount) / 1.18).toFixed(2)}</span>
+                               </div>
+                               <div className="flex justify-between">
+                                 <span className="text-emerald-600">GST @ 18%</span>
+                                 <span className="font-bold text-emerald-800">₹{(parseFloat(b.confirmBookingAmount) - (parseFloat(b.confirmBookingAmount) / 1.18)).toFixed(2)}</span>
+                               </div>
+                             </div>
+                           </div>
+                         ) : null}
 
                         {/* Confirm Booking Amount (admin accepted booking) */}
                         <div className="p-3 rounded-xl bg-violet-50 border border-violet-100">
@@ -302,11 +440,42 @@ export function MyRepairBookingsPage() {
                             ) : null}
                           </div>
 
-                          {b.confirmBookingAmount != null && b.confirmBookingAmount !== '' ? (
-                            <p className="text-lg font-black text-violet-800 mt-2">₹{b.confirmBookingAmount}</p>
-                          ) : (
-                            <p className="text-sm text-[#94a3b8] italic mt-2">Pending admin confirmation</p>
-                          )}
+{b.confirmBookingAmount != null && b.confirmBookingAmount !== '' ? (
+                             <div className="p-3 rounded-xl bg-violet-50 border border-violet-100">
+                               <div className="flex items-center justify-between gap-3">
+                                 <p className="text-xs font-semibold text-violet-700 flex items-center gap-1.5">
+                                   <FiDollarSign className="w-3.5 h-3.5" />Confirm Booking Amount
+                                 </p>
+                               </div>
+                               <div className="mt-2 space-y-1 text-xs">
+                                 <div className="flex justify-between">
+                                   <span className="text-violet-600">Amount (ex-GST)</span>
+                                   <span className="font-bold text-violet-800">₹{(parseFloat(b.confirmBookingAmount) / 1.18).toFixed(2)}</span>
+                                 </div>
+                                 <div className="flex justify-between">
+                                   <span className="text-violet-600">GST @ 18%</span>
+                                   <span className="font-bold text-violet-800">₹{(parseFloat(b.confirmBookingAmount) - (parseFloat(b.confirmBookingAmount) / 1.18)).toFixed(2)}</span>
+                                 </div>
+                                 <div className="pt-1 border-t border-violet-200 flex justify-between">
+                                   <span className="font-semibold text-violet-800">Total</span>
+                                   <span className="font-black text-violet-800">₹{b.confirmBookingAmount}</span>
+                                 </div>
+                               </div>
+                               {b.paymentStatus === 'paid' && (
+                                 <button
+                                   onClick={() => downloadRepairInvoice(b)}
+                                   className="mt-3 flex items-center justify-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-all cursor-pointer"
+                                 >
+                                   <FiDownload className="w-3.5 h-3.5" /> Invoice
+                                 </button>
+                               )}
+                             </div>
+                           ) : (
+                             <div className="p-3 rounded-xl bg-slate-50">
+                               <p className="text-xs font-semibold text-[#64748B] mb-1 flex items-center gap-1.5"><FiDollarSign className="w-3.5 h-3.5" />Confirm Booking Amount</p>
+                               <p className="text-sm text-[#94a3b8] italic">Pending admin confirmation</p>
+                             </div>
+                           )}
                         </div>
 
                         {b.notes ? (

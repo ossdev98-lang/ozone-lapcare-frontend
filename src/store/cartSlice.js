@@ -39,6 +39,7 @@ const cartSlice = createSlice({
         state.shipping = payload?.shipping || 0
         state.total = payload?.total || 0
         state.coupon = payload?.coupon || null
+        state.discount = payload?.discount || 0
         state.freeShippingThreshold = payload?.freeShippingThreshold || 999
         state.shippingCharge = payload?.shippingCharge ?? 99
       })

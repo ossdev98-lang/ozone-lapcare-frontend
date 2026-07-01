@@ -146,7 +146,7 @@ export const adAPI = {
 export const settingsAPI = {
   getPublic: () => api.get('/settings/public'),
   getAll: () => api.get('/admin/settings'),
-  update: (key, value) => api.put(`/admin/settings/${key}`, { key, value }),
+  update: (key, value) => api.put(`/admin/settings/${key}`, { value }),
 }
 
 

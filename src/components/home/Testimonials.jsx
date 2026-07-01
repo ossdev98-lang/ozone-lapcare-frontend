@@ -15,7 +15,7 @@ export function Testimonials() {
     <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
         <h2 className="section-title">What Our <span className="gradient-text">Customers Say</span></h2>
-        <p className="section-subtitle">10,000+ happy customers trust Ozone Lapcare</p>
+        <p className="section-subtitle">1,000+ happy customers trust Ozone Lapcare</p>
       </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {testimonials.map((t, i) => (

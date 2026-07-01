@@ -26,9 +26,16 @@ export default function AdminSettings() {
 
   // Store settings
   const { data: settingsData } = useQuery({ queryKey: ['admin-settings'], queryFn: () => settingsAPI.getAll().then(r => r.data.data) })
-  const [freeShippingThreshold, setFreeShippingThreshold] = useState(settingsData?.freeShippingThreshold || '999')
-  const [shippingCharge, setShippingCharge] = useState(settingsData?.shippingCharge || '99')
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState('999')
+  const [shippingCharge, setShippingCharge] = useState('99')
   const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (settingsData) {
+      setFreeShippingThreshold(String(settingsData.freeShippingThreshold))
+      setShippingCharge(String(settingsData.shippingCharge))
+    }
+  }, [settingsData])
 
   const updateSetting = useMutation({
     mutationFn: ({ key, value }) => settingsAPI.update(key, value),
