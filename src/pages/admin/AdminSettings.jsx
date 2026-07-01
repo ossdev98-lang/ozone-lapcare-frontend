@@ -570,19 +570,39 @@ function ProfilePanel() {
           </div>
         </div>
 
-        <form onSubmit={handleUpdate} className="grid sm:grid-cols-2 gap-5">
-          <Input label="Full Name" icon={FiUser} value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-          <Input label="Phone Number" icon={FiPhone} value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-medium text-[#374151] mb-1.5">Email Address</label>
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-[#64748B]">
-              <FiMail className="w-4 h-4" />{user?.email}
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <Button type="submit" loading={loading}><FiSave className="w-4 h-4" />Save Changes</Button>
-          </div>
-        </form>
+      <form onSubmit={handleUpdate} className="grid sm:grid-cols-2 gap-5">
+  <Input
+    label="Full Name"
+    icon={FiUser}
+    value={form.name}
+    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+  />
+
+  <Input
+    label="Phone Number"
+    icon={FiPhone}
+    value={form.phone}
+    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+  />
+
+  <div className="sm:col-span-2">
+    <label className="block text-sm font-medium text-[#374151] mb-1.5">
+      Email Address
+    </label>
+
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#ffffff99] border border-slate-200 text-[#64748B]">
+      <FiMail className="w-4 h-4" />
+      <span>{user?.email}</span>
+    </div>
+  </div>
+
+  <div className="sm:col-span-2">
+    <Button type="submit" loading={loading}>
+      <FiSave className="w-4 h-4" />
+      Save Changes
+    </Button>
+  </div>
+</form>
       </div>
 
       <div className="glass-card p-6">
