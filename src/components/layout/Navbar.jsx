@@ -256,9 +256,9 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={e => { setSearchQuery(e.target.value); fetchSuggestions(e.target.value) }}
                   placeholder="Search laptops, accessories, parts..."
-                  className="flex-1 bg-transparent text-lg outline-none text-[#111827] placeholder-[#94a3b8]"
+                  className="flex-1 min-w-0 bg-transparent text-base sm:text-lg outline-none text-[#111827] placeholder-[#94a3b8]"
                 />
-                <button type="button" onClick={closeSearch} className="p-2 rounded-xl hover:bg-white/40 transition-colors cursor-pointer">
+                <button type="button" onClick={closeSearch} className="p-2 rounded-xl hover:bg-white/40 transition-colors cursor-pointer shrink-0">
                   <FiX className="w-5 h-5 text-[#64748B]" />
                 </button>
               </form>
