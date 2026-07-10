@@ -44,43 +44,43 @@ export function ProfilePage() {
   return (
     <>
       <Helmet><title>Profile – Ozone Lapcare</title></Helmet>
-      <div className="min-h-screen py-10">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-black text-[#111827] mb-8">My Profile</h1>
+      <div className="min-h-screen py-4 md:py-10">
+        <div className="max-w-3xl mx-auto px-3 sm:px-6 lg:px-8">
+          <h1 className="text-2xl md:text-3xl font-black text-[#111827] mb-4 md:mb-8">My Profile</h1>
 
-          <div className="glass-card p-8 mb-6">
-            <div className="flex items-center gap-5 mb-8">
-              <div className="w-20 h-20 rounded-3xl gradient-bg flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-primary/30">
+          <div className="glass-card p-4 md:p-8 mb-4 md:mb-6">
+            <div className="flex items-center gap-3 md:gap-5 mb-4 md:mb-8">
+              <div className="w-14 h-14 md:w-20 md:h-20 rounded-2xl md:rounded-3xl gradient-bg flex items-center justify-center text-white text-xl md:text-2xl font-black shadow-xl shadow-primary/30">
                 {user?.name?.[0]?.toUpperCase()}
               </div>
               <div>
-                <h2 className="text-xl font-black text-[#111827]">{user?.name}</h2>
-                <p className="text-[#64748B]">{user?.email}</p>
-                <span className={`badge mt-1 ${user?.role === 'ADMIN' ? 'badge-primary' : 'badge-success'}`}>{user?.role}</span>
+                <h2 className="text-lg md:text-xl font-black text-[#111827]">{user?.name}</h2>
+                <p className="text-[#64748B] text-xs md:text-sm">{user?.email}</p>
+                <span className={`badge mt-0.5 md:mt-1 text-[10px] md:text-xs ${user?.role === 'ADMIN' ? 'badge-primary' : 'badge-success'}`}>{user?.role}</span>
               </div>
             </div>
 
-            <form onSubmit={handleUpdate} className="grid sm:grid-cols-2 gap-5">
+            <form onSubmit={handleUpdate} className="grid sm:grid-cols-2 gap-3 md:gap-5">
               <Input label="Full Name" icon={FiUser} value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
               <Input label="Phone Number" icon={FiPhone} value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-[#374151] mb-1.5">Email Address</label>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-[#64748B]">
-                  <FiMail className="w-4 h-4" />{user?.email}
+                <label className="block text-xs md:text-sm font-medium text-[#374151] mb-1 md:mb-1.5">Email Address</label>
+                <div className="flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 rounded-xl bg-slate-50 border border-slate-200 text-[#64748B] text-xs md:text-sm">
+                  <FiMail className="w-3.5 h-3.5 md:w-4 md:h-4" />{user?.email}
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <Button type="submit" loading={loading}><FiSave className="w-4 h-4" />Save Changes</Button>
+                <Button type="submit" loading={loading} className="text-xs md:text-base px-4 md:px-6 py-2 md:py-3"><FiSave className="w-3.5 h-3.5 md:w-4 md:h-4" />Save Changes</Button>
               </div>
             </form>
           </div>
 
-          <div className="glass-card p-8">
-            <h3 className="font-bold text-[#111827] mb-5">Change Password</h3>
-            <form onSubmit={handlePassword} className="grid sm:grid-cols-2 gap-5">
+          <div className="glass-card p-4 md:p-8">
+            <h3 className="font-bold text-[#111827] mb-4 md:mb-5 text-sm md:text-base">Change Password</h3>
+            <form onSubmit={handlePassword} className="grid sm:grid-cols-2 gap-3 md:gap-5">
               <Input label="Current Password" type="password" value={pwForm.currentPassword} onChange={e => setPwForm(f => ({ ...f, currentPassword: e.target.value }))} />
               <Input label="New Password" type="password" value={pwForm.newPassword} onChange={e => setPwForm(f => ({ ...f, newPassword: e.target.value }))} />
-              <Button type="submit" loading={pwLoading}>Update Password</Button>
+              <Button type="submit" loading={pwLoading} className="text-xs md:text-base px-4 md:px-6 py-2 md:py-3">Update Password</Button>
             </form>
           </div>
         </div>

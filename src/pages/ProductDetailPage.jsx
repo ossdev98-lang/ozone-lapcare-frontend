@@ -82,19 +82,19 @@ export default function ProductDetailPage() {
         <meta name="description" content={product.shortDescription || product.description} />
       </Helmet>
 
-      <div className="min-h-screen py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen py-4 md:py-10">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-[#64748B] mb-8">
+          <nav className="flex items-center gap-2 text-xs sm:text-sm text-[#64748B] mb-4 md:mb-8">
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <FiChevronRight className="w-3.5 h-3.5" />
+            <FiChevronRight className="w-3 h-3" />
             <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
-            <FiChevronRight className="w-3.5 h-3.5" />
-            {product.category && <><Link to={`/category/${product.category.slug}`} className="hover:text-primary transition-colors">{product.category.name}</Link><FiChevronRight className="w-3.5 h-3.5" /></>}
-            <span className="text-[#111827] font-medium truncate max-w-xs">{product.name}</span>
+            <FiChevronRight className="w-3 h-3" />
+            {product.category && <><Link to={`/category/${product.category.slug}`} className="hover:text-primary transition-colors">{product.category.name}</Link><FiChevronRight className="w-3 h-3" /></>}
+            <span className="text-[#111827] font-medium truncate max-w-[120px] sm:max-w-xs">{product.name}</span>
           </nav>
 
-          <div className="grid lg:grid-cols-2 gap-10 mb-16">
+          <div className="grid lg:grid-cols-2 gap-4 md:gap-10 mb-8 md:mb-16">
             {/* Gallery */}
             <div>
               <motion.div
@@ -166,47 +166,47 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              <div className="glass-card p-5">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-4xl font-black text-[#111827]">{formatPrice(price)}</span>
-                  {product.comparePrice && <span className="text-xl text-[#94a3b8] line-through">{formatPrice(product.comparePrice)}</span>}
-                  {discount > 0 && <span className="text-emerald-500 font-bold text-sm">You save {formatPrice(product.comparePrice - price)}</span>}
-                </div>
-                <p className="text-xs text-[#64748B]">Inclusive of all taxes. GST: {product.gstPercent}%</p>
-              </div>
+               <div className="glass-card p-3 md:p-5">
+                 <div className="flex items-baseline gap-2 md:gap-3 mb-1 md:mb-2">
+                   <span className="text-2xl md:text-4xl font-black text-[#111827]">{formatPrice(price)}</span>
+                   {product.comparePrice && <span className="text-base md:text-xl text-[#94a3b8] line-through">{formatPrice(product.comparePrice)}</span>}
+                   {discount > 0 && <span className="text-emerald-500 font-bold text-xs md:text-sm">You save {formatPrice(product.comparePrice - price)}</span>}
+                 </div>
+                 <p className="text-[10px] md:text-xs text-[#64748B]">Inclusive of all taxes. GST: {product.gstPercent}%</p>
+               </div>
 
               {product.shortDescription && (
                 <p className="text-[#374151] text-sm leading-relaxed">{product.shortDescription}</p>
               )}
 
-              {/* Quantity & Cart */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3 glass-card px-4 py-2 rounded-2xl">
-                  <button onClick={() => setQty(q => Math.max(1, q - 1))} className="text-[#64748B] hover:text-primary transition-colors cursor-pointer"><FiMinus className="w-4 h-4" /></button>
-                  <span className="w-8 text-center font-bold text-[#111827]">{qty}</span>
-                  <button onClick={() => setQty(q => Math.min(product.stock, q + 1))} disabled={qty >= product.stock} className="text-[#64748B] hover:text-primary transition-colors cursor-pointer disabled:opacity-40"><FiPlus className="w-4 h-4" /></button>
-                </div>
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  onClick={handleCart} disabled={cartLoading || product.stock === 0}
-                  className="flex-1 premium-button py-4 text-base">
-                  {cartLoading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <><FiShoppingCart className="w-5 h-5" />{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</>}
-                </motion.button>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleWishlist}
-                  className={`w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all duration-200 cursor-pointer ${wishlisted ? 'bg-red-50 border-red-400 text-red-500' : 'border-white/40 text-[#64748B] hover:border-red-400 hover:text-red-500 bg-white/60 backdrop-blur-sm'}`}>
-                  <FiHeart className={`w-5 h-5 ${wishlisted ? 'fill-current' : ''}`} />
-                </motion.button>
-              </div>
+               {/* Quantity & Cart */}
+               <div className="flex items-center gap-2 md:gap-4">
+                 <div className="flex items-center gap-2 md:gap-3 glass-card px-2.5 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-2xl">
+                   <button onClick={() => setQty(q => Math.max(1, q - 1))} className="text-[#64748B] hover:text-primary transition-colors cursor-pointer"><FiMinus className="w-3.5 h-3.5 md:w-4 md:h-4" /></button>
+                   <span className="w-6 md:w-8 text-center font-bold text-[#111827] text-sm md:text-base">{qty}</span>
+                   <button onClick={() => setQty(q => Math.min(product.stock, q + 1))} disabled={qty >= product.stock} className="text-[#64748B] hover:text-primary transition-colors cursor-pointer disabled:opacity-40"><FiPlus className="w-3.5 h-3.5 md:w-4 md:h-4" /></button>
+                 </div>
+                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                   onClick={handleCart} disabled={cartLoading || product.stock === 0}
+                   className="flex-1 premium-button py-2.5 md:py-4 text-xs md:text-base">
+                   {cartLoading ? <span className="w-4 h-4 md:w-5 md:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <><FiShoppingCart className="w-4 h-4 md:w-5 md:h-5" />{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</>}
+                 </motion.button>
+                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleWishlist}
+                   className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl border-2 flex items-center justify-center transition-all duration-200 cursor-pointer ${wishlisted ? 'bg-red-50 border-red-400 text-red-500' : 'border-white/40 text-[#64748B] hover:border-red-400 hover:text-red-500 bg-white/60 backdrop-blur-sm'}`}>
+                   <FiHeart className={`w-4 h-4 md:w-5 md:h-5 ${wishlisted ? 'fill-current' : ''}`} />
+                 </motion.button>
+               </div>
 
-              {/* Trust Badges */}
-              <div className="grid grid-cols-3 gap-3">
-                 {[[FiTruck, 'Free Delivery', `On orders ₹${freeShippingThreshold}+`], [FiShield, 'Genuine Product', 'Brand warranty'], [FiRefreshCw, 'Easy Returns', '7-day returns']].map(([Icon, title, sub]) => (
-                  <div key={title} className="glass-card p-3 text-center">
-                    <Icon className="w-5 h-5 text-primary mx-auto mb-1.5" />
-                    <p className="text-xs font-semibold text-[#111827]">{title}</p>
-                    <p className="text-[10px] text-[#64748B]">{sub}</p>
-                  </div>
-                ))}
-              </div>
+               {/* Trust Badges */}
+               <div className="grid grid-cols-3 gap-2 md:gap-3">
+                  {[[FiTruck, 'Free Delivery', `On orders ₹${freeShippingThreshold}+`], [FiShield, 'Genuine Product', 'Brand warranty'], [FiRefreshCw, 'Easy Returns', '7-day returns']].map(([Icon, title, sub]) => (
+                    <div key={title} className="glass-card p-2 md:p-3 text-center">
+                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-primary mx-auto mb-1" />
+                      <p className="text-[10px] md:text-xs font-semibold text-[#111827] leading-tight">{title}</p>
+                      <p className="text-[9px] md:text-[10px] text-[#64748B]">{sub}</p>
+                    </div>
+                  ))}
+                </div>
 
               {/* SKU & Warranty */}
               <div className="text-sm text-[#64748B] space-y-1">
@@ -217,17 +217,17 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Tabs */}
-          <div className="glass-card mb-10">
+          <div className="glass-card mb-6 md:mb-10">
             <div className="flex border-b border-white/20 overflow-x-auto">
               {[['specs', 'Specifications'], ['desc', 'Description'], ['reviews', `Reviews (${product.totalReviews})`]].map(([key, label]) => (
                 <button key={key} onClick={() => setTab(key)}
-                  className={`px-6 py-4 text-sm font-semibold whitespace-nowrap transition-all duration-200 border-b-2 cursor-pointer ${tab === key ? 'border-primary text-primary' : 'border-transparent text-[#64748B] hover:text-[#111827]'}`}>
+                  className={`px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-semibold whitespace-nowrap transition-all duration-200 border-b-2 cursor-pointer ${tab === key ? 'border-primary text-primary' : 'border-transparent text-[#64748B] hover:text-[#111827]'}`}>
                   {label}
                 </button>
               ))}
             </div>
 
-            <div className="p-6">
+            <div className="p-3 md:p-6">
               <AnimatePresence mode="wait">
                 {tab === 'specs' && (
                   <motion.div key="specs" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
@@ -284,8 +284,8 @@ export default function ProductDetailPage() {
           {/* Related Products */}
           {related?.length > 0 && (
             <div>
-              <h2 className="text-2xl font-black text-[#111827] mb-6">Related <span className="gradient-text">Products</span></h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <h2 className="text-xl md:text-2xl font-black text-[#111827] mb-4 md:mb-6">Related <span className="gradient-text">Products</span></h2>
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                 {related.map(p => <ProductCard key={p.id} product={p} />)}
               </div>
             </div>

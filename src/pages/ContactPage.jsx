@@ -31,48 +31,48 @@ export default function ContactPage() {
     <>
       <Helmet><title>Contact Us – Ozone Lapcare</title></Helmet>
 
-      <div className="bg-[#0F172A] py-20 relative overflow-hidden">
+      <div className="bg-[#0F172A] py-10 md:py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 40% 50%, #2875B7, transparent 60%)' }} />
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-5xl font-black text-white mb-4">Get in <span className="gradient-text">Touch</span></h1>
-            <p className="text-slate-400 text-lg">Our team is here to help you with anything</p>
+            <h1 className="text-3xl md:text-5xl font-black text-white mb-3 md:mb-4">Get in <span className="gradient-text">Touch</span></h1>
+            <p className="text-slate-400 text-sm md:text-lg">Our team is here to help you with anything</p>
           </motion.div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-8 md:py-16">
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-5 mb-6 md:mb-16">
           {contactInfo.map((c, i) => (
             <motion.a key={c.title} href={c.href} target={c.href.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-              className="glass-card p-6 text-center hover:-translate-y-1 hover:shadow-xl transition-all duration-300 block group">
-              <div className="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/30 group-hover:scale-110 transition-transform duration-300">
-                <c.icon className="w-6 h-6 text-white" />
+              className="glass-card p-3 md:p-6 text-center hover:-translate-y-1 hover:shadow-xl transition-all duration-300 block group">
+              <div className="w-10 h-10 md:w-14 md:h-14 gradient-bg rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-4 shadow-lg shadow-primary/30 group-hover:scale-110 transition-transform duration-300">
+                <c.icon className="w-4 h-4 md:w-6 md:h-6 text-white" />
               </div>
-              <h3 className="font-bold text-[#111827] mb-1">{c.title}</h3>
-              <p className="text-sm font-medium text-primary">{c.info}</p>
-              <p className="text-xs text-[#64748B] mt-1">{c.sub}</p>
+              <h3 className="font-bold text-[#111827] text-xs md:text-base mb-0.5 md:mb-1">{c.title}</h3>
+              <p className="text-xs md:text-sm font-medium text-primary leading-tight">{c.info}</p>
+              <p className="text-[10px] md:text-xs text-[#64748B] mt-0.5 md:mt-1 leading-tight">{c.sub}</p>
             </motion.a>
           ))}
         </div>
 
         {/* Form + Map */}
-        <div className="grid lg:grid-cols-5 gap-8">
+        <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
           <motion.div className="lg:col-span-3" initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="glass-card p-8">
-              <h2 className="text-2xl font-black text-[#111827] mb-6">Send Us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-4">
+            <div className="glass-card p-4 md:p-8">
+              <h2 className="text-xl md:text-2xl font-black text-[#111827] mb-4 md:mb-6">Send Us a Message</h2>
+              <form onSubmit={handleSubmit} className="space-y-3 md:space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <Input label="Your Name" placeholder="John Doe" required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
                   <Input label="Email Address" type="email" placeholder="you@example.com" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <Input label="Phone Number" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
                   <div>
-                    <label className="block text-sm font-medium text-[#374151] mb-1.5">Subject</label>
-                    <select value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} className="premium-input" required>
+                    <label className="block text-xs md:text-sm font-medium text-[#374151] mb-1 md:mb-1.5">Subject</label>
+                    <select value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} className="premium-input text-sm" required>
                       <option value="">Select subject</option>
                       <option>Order Inquiry</option>
                       <option>Product Question</option>
@@ -84,24 +84,24 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#374151] mb-1.5">Message</label>
+                  <label className="block text-xs md:text-sm font-medium text-[#374151] mb-1 md:mb-1.5">Message</label>
                   <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                    rows={5} placeholder="Tell us how we can help you..." required
-                    className="premium-input resize-none" />
+                    rows={4} placeholder="Tell us how we can help you..." required
+                    className="premium-input resize-none text-sm" />
                 </div>
-                <Button type="submit" loading={loading} className="w-full py-4 text-base">
-                  <FiSend className="w-5 h-5" /> Send Message
+                <Button type="submit" loading={loading} className="w-full py-3 md:py-4 text-sm md:text-base">
+                  <FiSend className="w-4 h-4 md:w-5 md:h-5" /> Send Message
                 </Button>
               </form>
             </div>
           </motion.div>
 
-          <motion.div className="lg:col-span-2 space-y-5" initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="glass-card p-6">
-              <h3 className="font-bold text-[#111827] mb-4 flex items-center gap-2"><FiClock className="w-4 h-4 text-primary" />Business Hours</h3>
-              <div className="space-y-2 text-sm">
+          <motion.div className="lg:col-span-2 space-y-3 md:space-y-5" initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <div className="glass-card p-4 md:p-6">
+              <h3 className="font-bold text-[#111827] mb-3 md:mb-4 flex items-center gap-2 text-sm md:text-base"><FiClock className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />Business Hours</h3>
+              <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm">
                 {[['Monday – Friday', '9:00 AM – 7:00 PM'], ['Saturday', '9:00 AM – 6:00 PM'], ['Sunday', '10:00 AM – 5:00 PM']].map(([day, time]) => (
-                  <div key={day} className="flex justify-between p-2.5 rounded-xl hover:bg-white/40 transition-colors">
+                  <div key={day} className="flex justify-between p-2 md:p-2.5 rounded-xl hover:bg-white/40 transition-colors">
                     <span className="text-[#374151] font-medium">{day}</span>
                     <span className="text-[#64748B]">{time}</span>
                   </div>
@@ -109,17 +109,17 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="glass-card p-6">
-              <h3 className="font-bold text-[#111827] mb-3 flex items-center gap-2"><FiMessageCircle className="w-4 h-4 text-primary" />Quick Support</h3>
-              <p className="text-sm text-[#64748B] mb-4">Get instant support via WhatsApp for urgent queries</p>
+            <div className="glass-card p-4 md:p-6">
+              <h3 className="font-bold text-[#111827] mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><FiMessageCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />Quick Support</h3>
+              <p className="text-xs md:text-sm text-[#64748B] mb-3 md:mb-4">Get instant support via WhatsApp for urgent queries</p>
               <a href="https://wa.me/918962872285?text=Hi! I need help" target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 bg-[#25D366] text-white font-semibold rounded-2xl hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200">
-                <FaWhatsapp className="w-5 h-5" /> Chat on WhatsApp
+                className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 bg-[#25D366] text-white font-semibold rounded-xl md:rounded-2xl hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 text-sm md:text-base">
+                <FaWhatsapp className="w-4 h-4 md:w-5 md:h-5" /> Chat on WhatsApp
               </a>
             </div>
 
-            <div className="glass-card overflow-hidden h-52 rounded-3xl">
-             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.3122953693155!2d75.87128107508228!3d22.71663097938933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fdb33441ce2f%3A0xadb626823b7e82b1!2sSilver%20Mall%20Indore%20-%20Laptops%20%26%20Computer!5e0!3m2!1sen!2sin!4v1782386931868!5m2!1sen!2sin" width="600" height="450" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="strict-origin-when-cross-origin"></iframe>
+            <div className="glass-card overflow-hidden h-40 md:h-52 rounded-xl md:rounded-3xl">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.3122953693155!2d75.87128107508228!3d22.71663097938933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fdb33441ce2f%3A0xadb626823b7e82b1!2sSilver%20Mall%20Indore%20-%20Laptops%20%26%20Computer!5e0!3m2!1sen!2sin!4v1782386931868!5m2!1sen!2sin" width="600" height="450" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" className="w-full h-full"></iframe>
             </div>
           </motion.div>
         </div>

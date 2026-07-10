@@ -81,11 +81,13 @@ export default function Footer() {
                 support@ozoneLapcare.com
               </li>
             </ul>
-            <div className="mt-3 md:mt-5 p-2.5 md:p-3 rounded-xl bg-white/5 border border-white/10">
-              <p className="text-[10px] text-slate-400 mb-0.5 md:mb-1">Business Hours</p>
-              <p className="text-xs md:text-sm font-medium leading-tight md:leading-normal">Mon - Sat: 10AM - 8PM</p>
-              <p className="text-[10px] md:text-xs text-slate-400">Sunday: 10AM – 5PM</p>
-            </div>
+          </div>
+
+          {/* Business Hours */}
+          <div className="lg:col-start-4 lg:row-start-2 p-2.5 md:p-3 rounded-xl bg-white/5 border border-white/10">
+            <p className="text-[10px] text-slate-400 mb-0.5 md:mb-1">Business Hours</p>
+            <p className="text-xs md:text-sm font-medium leading-tight md:leading-normal">Mon - Sat: 10AM - 8PM</p>
+            <p className="text-[10px] md:text-xs text-slate-400">Sunday: 10AM – 5PM</p>
           </div>
         </div>
 

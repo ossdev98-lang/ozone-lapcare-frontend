@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { FiStar, FiMail, FiArrowRight } from 'react-icons/fi'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 import toast from 'react-hot-toast'
 
 const testimonials = [
@@ -12,28 +16,44 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-8 md:py-16 max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-6 md:mb-12">
+    <section className="py-8 md:py-16 max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 overflow-hidden">
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-6 md:mb-10">
         <h2 className="section-title text-xl md:text-2xl">What Our <span className="gradient-text">Customers Say</span></h2>
         <p className="text-[11px] md:text-sm text-slate-500 mt-1 md:mt-2">1,000+ happy customers trust Ozone Lapcare</p>
       </motion.div>
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4 lg:gap-6">
-        {testimonials.map((t, i) => (
-          <motion.div key={t.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-            className="glass-card p-3 md:p-5 flex flex-col gap-2.5 md:gap-4 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, j) => <FiStar key={j} className="w-3 h-3 md:w-4 md:h-4 fill-amber-400 text-amber-400" />)}
-            </div>
-            <p className="text-[#374151] text-[11px] md:text-sm leading-relaxed flex-1 line-clamp-3 md:line-clamp-none">"{t.text}"</p>
-            <div className="flex items-center gap-2 md:gap-3 pt-1.5 md:pt-2 border-t border-white/30">
-              <div className="w-7 h-7 md:w-9 md:h-9 rounded-lg md:rounded-xl gradient-bg flex items-center justify-center text-white text-[10px] md:text-xs font-bold">{t.avatar}</div>
-              <div>
-                <p className="font-semibold text-[#111827] text-[11px] md:text-sm">{t.name}</p>
-                <p className="text-[10px] md:text-xs text-[#64748B]">{t.role}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+      <div className="max-w-4xl mx-auto">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          slidesPerView={1}
+          spaceBetween={16}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          pagination={{ clickable: true, el: '.swiper-pagination-testimonials' }}
+          loop
+          breakpoints={{
+            768: { slidesPerView: 1.2, centeredSlides: true },
+          }}
+          className="testimonials-swiper"
+        >
+          {testimonials.map((t, i) => (
+            <SwiperSlide key={t.id}>
+              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="glass-card p-5 md:p-8 flex flex-col gap-3 md:gap-4 testimonial-card">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, j) => <FiStar key={j} className="w-4 h-4 md:w-5 md:h-5 fill-amber-400 text-amber-400" />)}
+                </div>
+                <p className="text-[#374151] text-sm md:text-base leading-relaxed">"{t.text}"</p>
+                <div className="flex items-center gap-3 pt-3 border-t border-white/30">
+                  <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white text-sm font-bold">{t.avatar}</div>
+                  <div>
+                    <p className="font-semibold text-[#111827] text-sm md:text-base">{t.name}</p>
+                    <p className="text-xs md:text-sm text-[#64748B]">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="swiper-pagination-testimonials flex items-center justify-center gap-2 mt-5" />
       </div>
     </section>
   )

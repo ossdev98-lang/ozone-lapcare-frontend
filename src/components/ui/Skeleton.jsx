@@ -1,14 +1,14 @@
 export function ProductCardSkeleton({ compact } = {}) {
   return (
     <div className="glass-card overflow-hidden w-full">
-      <div className={`skeleton bg-slate-200 ${compact ? 'h-28' : 'h-52'} w-full`} />
-      <div className={`${compact ? 'p-2.5 space-y-2' : 'p-4 space-y-3'}`}>
-        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-2.5 w-1/3' : 'h-3 w-1/3'}`} />
-        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-full' : 'h-4 w-full'}`} />
-        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-2/3' : 'h-4 w-2/3'}`} />
+      <div className={`skeleton bg-slate-200 ${compact ? 'h-28' : 'h-40 sm:h-52'} w-full`} />
+      <div className={`${compact ? 'p-2.5 space-y-2' : 'p-3 sm:p-4 space-y-2 sm:space-y-3'}`}>
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-2.5 w-1/3' : 'h-2.5 sm:h-3 w-1/3'}`} />
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-full' : 'h-3 sm:h-4 w-full'}`} />
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-2/3' : 'h-3 sm:h-4 w-2/3'}`} />
         <div className="flex justify-between items-center">
-          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-4 w-1/3' : 'h-6 w-1/3'}`} />
-          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-7 w-12' : 'h-8 w-16'}`} />
+          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-4 w-1/3' : 'h-5 sm:h-6 w-1/3'}`} />
+          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-7 w-12' : 'h-7 sm:h-8 w-14 sm:w-16'}`} />
         </div>
       </div>
     </div>

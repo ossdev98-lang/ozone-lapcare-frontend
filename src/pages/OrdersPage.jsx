@@ -28,11 +28,11 @@ export function OrdersPage() {
   return (
     <>
       <Helmet><title>My Orders – Ozone Lapcare</title></Helmet>
-      <div className="min-h-screen py-10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-black text-[#111827]">My Orders</h1>
-            <select value={status} onChange={e => setStatus(e.target.value)} className="premium-input w-auto text-sm">
+      <div className="min-h-screen py-4 md:py-10">
+        <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 mb-4 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-black text-[#111827]">My Orders</h1>
+            <select value={status} onChange={e => setStatus(e.target.value)} className="premium-input w-auto text-xs md:text-sm">
               <option value="">All Orders</option>
               {['pending', 'confirmed', 'packed', 'shipped', 'delivered', 'cancelled'].map(s => (
                 <option key={s} value={s} className="capitalize">{s.charAt(0).toUpperCase() + s.slice(1)}</option>
@@ -47,30 +47,30 @@ export function OrdersPage() {
               </table>
             </div>
           ) : orders.length === 0 ? (
-            <div className="glass-card p-16 text-center">
-              <FiPackage className="w-16 h-16 text-[#64748B] mx-auto mb-4 opacity-50" />
-              <h3 className="text-xl font-bold mb-2">No Orders Yet</h3>
-              <p className="text-[#64748B] mb-6">Start shopping to see your orders here</p>
-              <Link to="/shop" className="premium-button">Shop Now</Link>
+            <div className="glass-card p-10 md:p-16 text-center">
+              <FiPackage className="w-12 h-12 md:w-16 md:h-16 text-[#64748B] mx-auto mb-3 md:mb-4 opacity-50" />
+              <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">No Orders Yet</h3>
+              <p className="text-[#64748B] text-xs md:text-base mb-4 md:mb-6">Start shopping to see your orders here</p>
+              <Link to="/shop" className="premium-button text-xs md:text-base px-4 md:px-6 py-2 md:py-3">Shop Now</Link>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {orders.map(order => (
                 <motion.div key={order.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                  className="glass-card p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  className="glass-card p-4 md:p-5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4">
                     <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <p className="font-black text-[#111827]">#{order.orderNumber}</p>
-                        <Badge variant={orderStatusColor(order.status)} className="capitalize">{order.status}</Badge>
-                        {order.paymentMethod === 'cod' ? <Badge variant="default">COD</Badge> : <Badge variant="primary">Online</Badge>}
+                      <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
+                        <p className="font-black text-[#111827] text-sm md:text-base">#{order.orderNumber}</p>
+                        <Badge variant={orderStatusColor(order.status)} className="capitalize text-[10px] md:text-xs">{order.status}</Badge>
+                        {order.paymentMethod === 'cod' ? <Badge variant="default" className="text-[10px] md:text-xs">COD</Badge> : <Badge variant="primary" className="text-[10px] md:text-xs">Online</Badge>}
                       </div>
-                      <p className="text-sm text-[#64748B]">{order.items?.length} items · {formatDate(order.createdAt)}</p>
+                      <p className="text-xs md:text-sm text-[#64748B]">{order.items?.length} items · {formatDate(order.createdAt)}</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <p className="text-xl font-black text-[#111827]">{formatPrice(order.total)}</p>
-                      <Link to={`/orders/${order.id}`} className="premium-button-ghost text-sm">
-                        <FiEye className="w-4 h-4" />View
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <p className="text-lg md:text-xl font-black text-[#111827]">{formatPrice(order.total)}</p>
+                      <Link to={`/orders/${order.id}`} className="premium-button-ghost text-xs md:text-sm">
+                        <FiEye className="w-3.5 h-3.5 md:w-4 md:h-4" />View
                       </Link>
                     </div>
                   </div>
@@ -97,13 +97,6 @@ export function OrdersPage() {
                   )}
                 </motion.div>
               ))}
-
-              {pagination?.pages > 1 && (
-                <div className="flex justify-center gap-2 pt-4">
-                  <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="premium-button-ghost text-sm px-4 py-2 disabled:opacity-40">Prev</button>
-                  <button onClick={() => setPage(p => Math.min(pagination.pages, p + 1))} disabled={page === pagination.pages} className="premium-button-ghost text-sm px-4 py-2 disabled:opacity-40">Next</button>
-                </div>
-              )}
             </div>
           )}
         </div>

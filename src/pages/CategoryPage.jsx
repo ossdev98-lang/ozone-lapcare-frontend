@@ -125,29 +125,29 @@ export default function CategoryPage() {
           <div className="absolute inset-0 opacity-[0.10]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.20) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.20) 1px, transparent 1px)', backgroundSize: '54px 54px' }} />
           <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
           <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-secondary/25 blur-3xl" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
             <div className="max-w-3xl">
-              <motion.span initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-cyan-100 border border-white/15 backdrop-blur-md">
-                <FiTag className="w-4 h-4" /> {category?.name || slug}
+              <motion.span initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs md:text-sm font-bold text-cyan-100 border border-white/15 backdrop-blur-md">
+                <FiTag className="w-3.5 h-3.5 md:w-4 md:h-4" /> {category?.name || slug}
               </motion.span>
-              <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="mt-5 text-4xl md:text-5xl font-black text-white tracking-tight">
+              <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="mt-3 md:mt-5 text-2xl md:text-4xl font-black text-white tracking-tight">
                 {category?.name || slug}
               </motion.h1>
-              {pagination && <p className="mt-4 text-slate-400">{pagination.total} products found</p>}
+              {pagination && <p className="mt-2 md:mt-4 text-slate-400 text-xs md:text-base">{pagination.total} products found</p>}
             </div>
           </div>
         </section>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
-          <div className="rounded-2xl border border-slate-100 bg-white/90 shadow-sm p-4 lg:p-5 mb-6">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="rounded-2xl border border-slate-100 bg-white/90 shadow-sm p-3 md:p-5 mb-4 md:mb-6">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 md:gap-4">
               <div>
-                <div className="flex items-center gap-2 text-sm font-bold text-slate-400">
-                  <FiTag className="w-4 h-4 text-primary" /> {pagination ? `${pagination.total} products found` : 'Loading products'}
+                <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-slate-400">
+                  <FiTag className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" /> {pagination ? `${pagination.total} products found` : 'Loading products'}
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 md:gap-3">
                 <form onSubmit={handleSearch} className="hidden sm:flex items-center gap-2">
                   <div className="relative">
                     <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 w-4 h-4" />
@@ -155,31 +155,31 @@ export default function CategoryPage() {
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
                       placeholder="Search in category..."
-                      className="w-48 rounded-2xl border border-slate-100 bg-slate-50 pl-10 pr-4 py-2 text-sm outline-none focus:border-primary focus:bg-white transition-colors"
+                      className="w-40 md:w-48 rounded-xl border border-slate-100 bg-slate-50 pl-9 md:pl-10 pr-3 md:pr-4 py-2 text-xs md:text-sm outline-none focus:border-primary focus:bg-white transition-colors"
                     />
                   </div>
                 </form>
 
-                <button onClick={() => setShowFilters(true)} className="lg:hidden inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700">
-                  <FiSliders className="w-4 h-4" /> Filters
+                <button onClick={() => setShowFilters(true)} className="lg:hidden inline-flex items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 px-3 md:px-4 py-2.5 md:py-3 text-xs md:text-sm font-bold text-slate-700">
+                  <FiSliders className="w-3.5 h-3.5 md:w-4 md:h-4" /> Filters
                 </button>
 
-                <div className="relative min-w-[220px]">
-                  <select value={sortValue} onChange={e => handleSort(e.target.value)} className="w-full appearance-none rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 pr-10 text-sm font-bold text-slate-700 outline-none transition-all focus:border-primary focus:bg-white">
+                <div className="relative min-w-[180px] md:min-w-[220px]">
+                  <select value={sortValue} onChange={e => handleSort(e.target.value)} className="w-full appearance-none rounded-xl border border-slate-100 bg-slate-50 px-3 md:px-4 py-2 md:py-3 pr-8 md:pr-10 text-xs md:text-sm font-bold text-slate-700 outline-none transition-all focus:border-primary focus:bg-white">
                     {sortOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
-                  <FiChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none" />
+                  <FiChevronDown className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-slate-400 w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" />
                 </div>
               </div>
             </div>
 
             {activeFilters.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-3 md:mt-4 flex flex-wrap gap-1.5 md:gap-2">
                 {activeFilters.map(filter => (
-                  <span key={filter} className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-primary">{filter}</span>
+                  <span key={filter} className="inline-flex items-center rounded-full bg-blue-50 px-2 md:px-3 py-1 md:py-1.5 text-[10px] md:text-xs font-bold text-primary">{filter}</span>
                 ))}
-                <button onClick={clearFilters} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-red-500 transition-colors">
-                  Clear <FiX className="w-3.5 h-3.5" />
+                <button onClick={clearFilters} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 md:px-3 py-1 md:py-1.5 text-[10px] md:text-xs font-bold text-slate-500 hover:text-red-500 transition-colors">
+                  Clear <FiX className="w-3 h-3 md:w-3.5 md:h-3.5" />
                 </button>
               </div>
             )}
@@ -319,36 +319,36 @@ export default function CategoryPage() {
 
             <div className="flex-1 min-w-0">
               {isLoading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
                   {[...Array(9)].map((_, i) => <ProductCardSkeleton key={i} />)}
                 </div>
               ) : products.length === 0 ? (
-                <div className="rounded-[2rem] border border-slate-100 bg-white p-12 sm:p-16 text-center shadow-sm">
-                  <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-primary">
-                    <FiSearch className="w-7 h-7" />
+                <div className="rounded-2xl border border-slate-100 bg-white p-8 sm:p-12 md:p-16 text-center shadow-sm">
+                  <div className="mx-auto mb-3 md:mb-5 flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-xl md:rounded-2xl bg-blue-50 text-primary">
+                    <FiSearch className="w-5 h-5 md:w-7 md:h-7" />
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-2">No Products Found</h3>
-                  <p className="text-slate-500 mb-7">Try adjusting your filters or search terms.</p>
-                  <button onClick={clearFilters} className="premium-button">Clear filters</button>
+                  <h3 className="text-lg md:text-2xl font-black text-slate-900 mb-1 md:mb-2">No Products Found</h3>
+                  <p className="text-slate-500 text-xs md:text-base mb-4 md:mb-7">Try adjusting your filters or search terms.</p>
+                  <button onClick={clearFilters} className="premium-button text-xs md:text-base px-4 md:px-6 py-2 md:py-3">Clear filters</button>
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
                     {products.map(p => <ProductCard key={p.id} product={p} />)}
                   </div>
 
                   {pagination?.pages > 1 && (
-                    <div className="flex items-center justify-center gap-2 mt-10">
-                      <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="rounded-2xl border border-slate-100 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm hover:text-primary disabled:opacity-40">Prev</button>
+                    <div className="flex items-center justify-center gap-1.5 md:gap-2 mt-6 md:mt-10">
+                      <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="rounded-xl border border-slate-100 bg-white px-3 md:px-4 py-1.5 md:py-2.5 text-xs md:text-sm font-bold text-slate-600 shadow-sm hover:text-primary disabled:opacity-40">Prev</button>
                       {[...Array(Math.min(pagination.pages, 5))].map((_, i) => {
                         const p = i + 1
                         return (
-                          <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-2xl text-sm font-bold transition-all ${page === p ? 'gradient-bg text-white shadow-lg shadow-primary/20' : 'bg-white text-slate-500 border border-slate-100 hover:text-primary'}`}>
+                          <button key={p} onClick={() => setPage(p)} className={`w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm font-bold transition-all ${page === p ? 'gradient-bg text-white shadow-lg shadow-primary/20' : 'bg-white text-slate-500 border border-slate-100 hover:text-primary'}`}>
                             {p}
                           </button>
                         )
                       })}
-                      <button onClick={() => setPage(p => Math.min(pagination.pages, p + 1))} disabled={page === pagination.pages} className="rounded-2xl border border-slate-100 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm hover:text-primary disabled:opacity-40">Next</button>
+                      <button onClick={() => setPage(p => Math.min(pagination.pages, p + 1))} disabled={page === pagination.pages} className="rounded-xl border border-slate-100 bg-white px-3 md:px-4 py-1.5 md:py-2.5 text-xs md:text-sm font-bold text-slate-600 shadow-sm hover:text-primary disabled:opacity-40">Next</button>
                     </div>
                   )}
                 </>

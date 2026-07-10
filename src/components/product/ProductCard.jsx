@@ -131,17 +131,17 @@ export default function ProductCard({ product, compact }) {
         <div className="product-img-wrap relative">
           <img src={img} alt={product.name} loading="lazy" />
           {discount > 0 && (
-            <span className="absolute top-3 left-3 badge bg-gradient-to-r from-red-500 to-rose-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+            <span className="absolute top-2 left-2 sm:top-3 sm:left-3 badge bg-gradient-to-r from-red-500 to-rose-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-lg">
               -{discount}%
             </span>
           )}
           {product.isFlashSale && (
-            <span className="absolute top-3 right-3 badge bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg animate-pulse">
+            <span className="absolute top-2 right-2 sm:top-3 sm:right-3 badge bg-gradient-to-r from-amber-400 to-orange-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-lg animate-pulse">
               ⚡ Flash
             </span>
           )}
           {product.condition === 'refurbished' && (
-            <span className="absolute bottom-3 left-3 badge bg-emerald-500/90 text-white text-xs px-2.5 py-1 rounded-full backdrop-blur-sm">
+            <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 badge bg-emerald-500/90 text-white text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full backdrop-blur-sm">
               Refurbished
             </span>
           )}
@@ -166,31 +166,31 @@ export default function ProductCard({ product, compact }) {
           </div>
         </div>
 
-        <div className="p-4">
-          <p className="text-xs text-[#64748B] mb-1 font-medium">{product.brand?.name || product.category?.name}</p>
-          <h3 className="font-semibold text-[#111827] text-sm leading-tight mb-2 line-clamp-2">{product.name}</h3>
+        <div className="p-3 sm:p-4">
+          <p className="text-[10px] sm:text-xs text-[#64748B] mb-0.5 sm:mb-1 font-medium truncate">{product.brand?.name || product.category?.name}</p>
+          <h3 className="font-semibold text-[#111827] text-xs sm:text-sm leading-tight mb-1.5 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-auto">{product.name}</h3>
 
           {product.avgRating > 0 && (
-            <div className="flex items-center gap-1 mb-2">
+            <div className="flex items-center gap-1 mb-1.5 sm:mb-2">
               {[...Array(5)].map((_, i) => (
-                <FiStar key={i} className={`w-3 h-3 ${i < Math.floor(product.avgRating) ? 'fill-amber-400 text-amber-400' : 'text-slate-300'}`} />
+                <FiStar key={i} className={`w-2.5 h-2.5 sm:w-3 sm:h-3 ${i < Math.floor(product.avgRating) ? 'fill-amber-400 text-amber-400' : 'text-slate-300'}`} />
               ))}
-              <span className="text-xs text-[#64748B] ml-1">({product.totalReviews})</span>
+              <span className="text-[10px] sm:text-xs text-[#64748B] ml-1">({product.totalReviews})</span>
             </div>
           )}
 
-          <div className="flex items-center justify-between mt-3">
-            <div>
-              <span className="text-lg font-bold text-[#111827]">{formatPrice(product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price)}</span>
+          <div className="flex items-center justify-between mt-2 sm:mt-3 gap-2">
+            <div className="min-w-0">
+              <span className="text-base sm:text-lg font-bold text-[#111827] truncate block">{formatPrice(product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price)}</span>
               {product.comparePrice && (
-                <span className="text-xs text-[#94a3b8] line-through ml-2">{formatPrice(product.comparePrice)}</span>
+                <span className="text-[10px] sm:text-xs text-[#94a3b8] line-through ml-1 sm:ml-2">{formatPrice(product.comparePrice)}</span>
               )}
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={handleCart}
               disabled={cartLoading || product.stock === 0}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-secondary text-white text-xs font-semibold px-3 py-2 rounded-xl shadow-md shadow-primary/30 transition-all duration-200 hover:shadow-lg disabled:opacity-50"
+              className="shrink-0 flex items-center gap-1 bg-gradient-to-r from-primary to-secondary text-white text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl shadow-md shadow-primary/30 transition-all duration-200 hover:shadow-lg disabled:opacity-50"
             >
               <FiShoppingCart className="w-3.5 h-3.5" />
               {product.stock === 0 ? 'Out' : 'Add'}
@@ -198,10 +198,10 @@ export default function ProductCard({ product, compact }) {
           </div>
 
           {product.stock > 0 && product.stock <= 5 && (
-            <p className="text-xs text-amber-500 mt-1.5 font-medium">Only {product.stock} left!</p>
+            <p className="text-[10px] sm:text-xs text-amber-500 mt-1 sm:mt-1.5 font-medium">Only {product.stock} left!</p>
           )}
           {product.stock === 0 && (
-            <p className="text-xs text-red-500 mt-1.5 font-medium">Out of stock</p>
+            <p className="text-[10px] sm:text-xs text-red-500 mt-1 sm:mt-1.5 font-medium">Out of stock</p>
           )}
         </div>
       </div>
