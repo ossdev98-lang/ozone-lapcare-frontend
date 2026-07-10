@@ -89,14 +89,14 @@ export default function CheckoutPage() {
   return (
     <>
       <Helmet><title>Checkout – Ozone Lapcare</title></Helmet>
-      <div className="min-h-screen py-10">
+      <div className="min-h-screen py-6 md:py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-black text-[#111827] mb-8">Checkout</h1>
+          <h1 className="text-2xl md:text-3xl font-black text-[#111827] mb-5 md:mb-8">Checkout</h1>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="lg:col-span-2 space-y-4 md:space-y-6 min-w-0">
               {/* Delivery Address */}
-              <div className="glass-card p-6">
+              <div className="glass-card p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="font-bold text-[#111827] flex items-center gap-2"><FiMapPin className="w-5 h-5 text-primary" />Delivery Address</h2>
                   <button onClick={() => setShowAddressForm(v => !v)} className="text-sm text-primary flex items-center gap-1 hover:underline cursor-pointer">
@@ -106,37 +106,37 @@ export default function CheckoutPage() {
 
                 {showAddressForm && (
                   <form onSubmit={handleAddAddress} className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5 p-4 rounded-2xl bg-white/40 border border-white/30">
-                    {[['name', 'Full Name', 'col-span-2 sm:col-span-1'], ['phone', 'Phone Number', ''], ['line1', 'Address Line 1', 'col-span-2'], ['line2', 'Address Line 2 (Optional)', 'col-span-2'], ['city', 'City', ''], ['state', 'State', ''], ['pincode', 'Pincode', '']].map(([key, label, cls]) => (
+                      {[['name', 'Full Name', 'sm:col-span-2'], ['phone', 'Phone Number', ''], ['line1', 'Address Line 1', 'sm:col-span-2'], ['line2', 'Address Line 2 (Optional)', 'sm:col-span-2'], ['city', 'City', ''], ['state', 'State', ''], ['pincode', 'Pincode', '']].map(([key, label, cls]) => (
                       <div key={key} className={cls}>
                         <label className="block text-xs font-medium text-[#374151] mb-1">{label}</label>
                         <input value={addressForm[key]} onChange={e => setAddressForm(f => ({ ...f, [key]: e.target.value }))}
                           className="premium-input text-sm" required={key !== 'line2'} />
                       </div>
                     ))}
-                    <div className="col-span-2 flex gap-3 mt-1">
+                    <div className="sm:col-span-2 flex gap-3 mt-1">
                       <Button type="submit" loading={addressLoading} size="sm">Save Address</Button>
                       <button type="button" onClick={() => setShowAddressForm(false)} className="premium-button-ghost text-sm px-4 py-2">Cancel</button>
                     </div>
                   </form>
                 )}
 
-                <div className="grid sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
                   {addresses?.map(addr => (
                     <div key={addr.id} onClick={() => setSelectedAddress(addr.id)}
-                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 relative ${selectedAddress === addr.id ? 'border-primary bg-primary/5' : 'border-white/40 bg-white/40 hover:border-primary/40'}`}>
+                      className={`p-3 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 relative min-w-0 ${selectedAddress === addr.id ? 'border-primary bg-primary/5' : 'border-white/40 bg-white/40 hover:border-primary/40'}`}>
                       {selectedAddress === addr.id && (
-                        <span className="absolute top-3 right-3 w-5 h-5 gradient-bg rounded-full flex items-center justify-center">
+                        <span className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 gradient-bg rounded-full flex items-center justify-center">
                           <FiCheck className="w-3 h-3 text-white" />
                         </span>
                       )}
-                      <p className="font-semibold text-sm text-[#111827]">{addr.name}</p>
-                      <p className="text-xs text-[#64748B] mt-1">{addr.line1}, {addr.line2 && `${addr.line2}, `}{addr.city}, {addr.state} – {addr.pincode}</p>
-                      <p className="text-xs text-[#64748B] mt-0.5">📞 {addr.phone}</p>
+                      <p className="font-semibold text-sm text-[#111827] break-words">{addr.name}</p>
+                      <p className="text-xs text-[#64748B] mt-1 break-words">{addr.line1}, {addr.line2 && `${addr.line2}, `}{addr.city}, {addr.state} – {addr.pincode}</p>
+                      <p className="text-xs text-[#64748B] mt-0.5 break-words">📞 {addr.phone}</p>
                       <span className="badge-info mt-2 inline-block capitalize">{addr.type}</span>
                     </div>
                   ))}
                   {!addresses?.length && !showAddressForm && (
-                    <div className="col-span-2 text-center py-8 text-[#64748B]">
+                    <div className="sm:col-span-2 text-center py-8 text-[#64748B]">
                       <FiMapPin className="w-10 h-10 mx-auto mb-3 opacity-30" />
                       <p className="text-sm">No saved addresses. Add one to continue.</p>
                     </div>
@@ -145,17 +145,17 @@ export default function CheckoutPage() {
               </div>
 
               {/* Payment Method */}
-              <div className="glass-card p-6">
+              <div className="glass-card p-4 sm:p-6">
                 <h2 className="font-bold text-[#111827] flex items-center gap-2 mb-5"><FiCreditCard className="w-5 h-5 text-primary" />Payment Method</h2>
                 <div className="space-y-3">
                   {paymentMethods.map(m => (
                     <div key={m.id} onClick={() => setPaymentMethod(m.id)}
-                      className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${paymentMethod === m.id ? 'border-primary bg-primary/5' : 'border-white/40 bg-white/40 hover:border-primary/40'}`}>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === m.id ? 'border-primary bg-primary' : 'border-[#d1d5db]'}`}>
+                      className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${paymentMethod === m.id ? 'border-primary bg-primary/5' : 'border-white/40 bg-white/40 hover:border-primary/40'}`}>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === m.id ? 'border-primary bg-primary' : 'border-[#d1d5db]'}`}>
                         {paymentMethod === m.id && <div className="w-2 h-2 bg-white rounded-full" />}
                       </div>
-                      <m.icon className={`w-5 h-5 ${paymentMethod === m.id ? 'text-primary' : 'text-[#64748B]'}`} />
-                      <div>
+                      <m.icon className={`w-5 h-5 shrink-0 ${paymentMethod === m.id ? 'text-primary' : 'text-[#64748B]'}`} />
+                      <div className="min-w-0">
                         <p className="font-semibold text-sm text-[#111827]">{m.label}</p>
                         <p className="text-xs text-[#64748B]">{m.desc}</p>
                       </div>
@@ -165,7 +165,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Notes */}
-              <div className="glass-card p-5">
+              <div className="glass-card p-4 sm:p-5">
                 <label className="block font-semibold text-sm text-[#111827] mb-2">Order Notes (Optional)</label>
                 <textarea value={notes} onChange={e => setNotes(e.target.value)}
                   placeholder="Any special instructions for your order..."
@@ -174,9 +174,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* Summary */}
-            <div className="glass-card p-6 h-fit sticky top-24">
-              <h2 className="font-bold text-[#111827] mb-5">Order Summary</h2>
-              <div className="space-y-3 mb-5">
+            <div className="glass-card p-4 sm:p-6 h-fit lg:sticky lg:top-24 min-w-0">
+              <h2 className="font-bold text-[#111827] mb-4 md:mb-5">Order Summary</h2>
+              <div className="space-y-3 mb-4 md:mb-5 max-h-64 overflow-y-auto pr-1">
                 {items.map(item => (
                   <div key={item.id} className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-50 shrink-0">
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
                   <span>Total</span><span>{formatPrice(grandTotal)}</span>
                 </div>
               </div>
-              <Button onClick={handlePlaceOrder} loading={loading} className="w-full mt-6 py-4 text-base">
+              <Button onClick={handlePlaceOrder} loading={loading} className="w-full mt-5 py-3 sm:py-4 text-sm sm:text-base">
                 Place Order
               </Button>
             </div>

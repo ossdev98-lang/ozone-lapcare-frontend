@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiSearch, FiHeart, FiShoppingCart, FiBell, FiUser, FiMenu, FiX, FiChevronDown, FiLogOut, FiPackage, FiSettings, FiGrid, FiTool } from 'react-icons/fi'
@@ -9,6 +9,7 @@ import logo from '../../assets/logo.png'
 export default function Navbar() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const { user } = useSelector(s => s.auth)
   const { items, guestItems } = useSelector(s => s.cart)
   const cartCount = (user ? items : guestItems).length
@@ -55,14 +56,14 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass-navbar' : 'bg-transparent'}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${location.pathname === '/' ? (scrolled ? 'glass-navbar' : 'bg-transparent') : 'glass-navbar'}`}
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
-              <img src={logo} alt="Ozone Lapcare" className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
+              <img src={logo} alt="Ozone Lapcare" className="h-8 sm:h-9 md:h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
             </Link>
 
             {/* Desktop Nav */}
