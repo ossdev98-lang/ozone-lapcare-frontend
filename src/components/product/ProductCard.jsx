@@ -8,7 +8,7 @@ import { formatPrice, getDiscount } from '../../utils/helpers'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, compact }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { user } = useSelector(s => s.auth)
@@ -37,10 +37,19 @@ export default function ProductCard({ product }) {
 
   const handleCart = async e => {
     e.stopPropagation()
-    if (!user) { toast.error('Please login to add to cart'); return }
     setCartLoading(true)
     try {
-      await dispatch(addToCart({ productId: product.id, quantity: 1 })).unwrap()
+      await dispatch(addToCart({
+        productId: product.id,
+        quantity: 1,
+        product: {
+          name: product.name,
+          thumbnail: product.thumbnail || product.images?.[0]?.url,
+          slug: product.slug,
+          price: product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price,
+          brand: product.brand
+        }
+      })).unwrap()
       toast.success('Added to cart!')
     } catch (err) { toast.error(err || 'Failed') } finally { setCartLoading(false) }
   }
@@ -55,21 +64,71 @@ export default function ProductCard({ product }) {
     } catch { toast.error('Failed') }
   }
 
+  if (compact) {
+    return (
+      <motion.div
+        className="w-full"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+      >
+        <div
+          className="product-card block group cursor-pointer w-full"
+          onClick={handleCardClick}
+          onKeyDown={handleCardKeyDown}
+          role="link"
+          tabIndex={0}
+        >
+          <div className="product-img-wrap relative">
+            <img src={img} alt={product.name} loading="lazy" />
+            {discount > 0 && (
+              <span className="absolute top-2 left-2 badge bg-gradient-to-r from-red-500 to-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg">
+                -{discount}%
+              </span>
+            )}
+          </div>
+          <div className="p-2.5">
+            <p className="text-[10px] text-[#64748B] mb-0.5 font-medium truncate">{product.brand?.name || product.category?.name}</p>
+            <h3 className="font-semibold text-[#111827] text-xs leading-tight mb-1.5 line-clamp-2 min-h-[1.75rem]">{product.name}</h3>
+            <div className="flex items-center justify-between gap-2">
+              <div className="min-w-0">
+                <span className="text-sm font-bold text-[#111827] truncate block">{formatPrice(product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price)}</span>
+                {product.comparePrice && (
+                  <span className="text-[10px] text-[#94a3b8] line-through">{formatPrice(product.comparePrice)}</span>
+                )}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                onClick={handleCart}
+                disabled={cartLoading || product.stock === 0}
+                className="shrink-0 flex items-center gap-1 bg-gradient-to-r from-primary to-secondary text-white text-[10px] font-semibold px-2 py-1.5 rounded-lg shadow-md shadow-primary/30 transition-all duration-200 hover:shadow-lg disabled:opacity-50"
+              >
+                {cartLoading ? <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <><FiShoppingCart className="w-3 h-3" />{product.stock === 0 ? 'Out' : 'Add'}</>}
+              </motion.button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    )
+  }
+
   return (
     <motion.div
+      className="w-full"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
     >
       <div
-        className="product-card block group cursor-pointer"
+        className="product-card block group cursor-pointer w-full"
         onClick={handleCardClick}
         onKeyDown={handleCardKeyDown}
         role="link"
         tabIndex={0}
       >
-        <div className="product-img-wrap h-52 relative">
+        <div className="product-img-wrap relative">
           <img src={img} alt={product.name} loading="lazy" />
           {discount > 0 && (
             <span className="absolute top-3 left-3 badge bg-gradient-to-r from-red-500 to-rose-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">

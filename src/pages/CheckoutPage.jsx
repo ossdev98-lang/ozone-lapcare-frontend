@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { FiMapPin, FiPlus, FiCheck, FiCreditCard, FiTruck } from 'react-icons/fi'
 import { useQuery } from '@tanstack/react-query'

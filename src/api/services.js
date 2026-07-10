@@ -53,6 +53,7 @@ export const cartAPI = {
   clear: () => api.delete('/cart'),
   applyCoupon: d => api.post('/cart/coupon', d),
   removeCoupon: () => api.delete('/cart/coupon'),
+  merge: d => api.post('/cart/merge', d),
 }
 
 // Orders

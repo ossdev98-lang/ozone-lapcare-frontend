@@ -12,24 +12,24 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-        <h2 className="section-title">What Our <span className="gradient-text">Customers Say</span></h2>
-        <p className="section-subtitle">1,000+ happy customers trust Ozone Lapcare</p>
+    <section className="py-8 md:py-16 max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-6 md:mb-12">
+        <h2 className="section-title text-xl md:text-2xl">What Our <span className="gradient-text">Customers Say</span></h2>
+        <p className="text-[11px] md:text-sm text-slate-500 mt-1 md:mt-2">1,000+ happy customers trust Ozone Lapcare</p>
       </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4 lg:gap-6">
         {testimonials.map((t, i) => (
           <motion.div key={t.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-            className="glass-card p-6 flex flex-col gap-4 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
+            className="glass-card p-3 md:p-5 flex flex-col gap-2.5 md:gap-4 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
             <div className="flex gap-0.5">
-              {[...Array(5)].map((_, j) => <FiStar key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
+              {[...Array(5)].map((_, j) => <FiStar key={j} className="w-3 h-3 md:w-4 md:h-4 fill-amber-400 text-amber-400" />)}
             </div>
-            <p className="text-[#374151] text-sm leading-relaxed flex-1">"{t.text}"</p>
-            <div className="flex items-center gap-3 pt-2 border-t border-white/30">
-              <div className="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center text-white text-xs font-bold">{t.avatar}</div>
+            <p className="text-[#374151] text-[11px] md:text-sm leading-relaxed flex-1 line-clamp-3 md:line-clamp-none">"{t.text}"</p>
+            <div className="flex items-center gap-2 md:gap-3 pt-1.5 md:pt-2 border-t border-white/30">
+              <div className="w-7 h-7 md:w-9 md:h-9 rounded-lg md:rounded-xl gradient-bg flex items-center justify-center text-white text-[10px] md:text-xs font-bold">{t.avatar}</div>
               <div>
-                <p className="font-semibold text-[#111827] text-sm">{t.name}</p>
-                <p className="text-xs text-[#64748B]">{t.role}</p>
+                <p className="font-semibold text-[#111827] text-[11px] md:text-sm">{t.name}</p>
+                <p className="text-[10px] md:text-xs text-[#64748B]">{t.role}</p>
               </div>
             </div>
           </motion.div>
@@ -54,29 +54,29 @@ export function Newsletter() {
   }
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-8 md:py-16 px-2 sm:px-4">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="glass-card p-10 text-center relative overflow-hidden">
+          className="glass-card p-5 md:p-10 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
           <div className="relative">
-            <div className="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-primary/30">
-              <FiMail className="w-7 h-7 text-white" />
+            <div className="w-12 h-12 md:w-16 md:h-16 gradient-bg rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-xl shadow-primary/30">
+              <FiMail className="w-5 h-5 md:w-7 md:h-7 text-white" />
             </div>
-            <h2 className="text-3xl font-black text-[#111827] mb-3">Get 10% Off Your First Order</h2>
-            <p className="text-[#64748B] mb-8">Subscribe to our newsletter for exclusive deals, new arrivals, and tech tips.</p>
-            <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto">
+            <h2 className="text-xl md:text-3xl font-black text-[#111827] mb-2 md:mb-3">Get 10% Off Your First Order</h2>
+            <p className="text-[#64748B] text-xs md:text-base mb-5 md:mb-8">Subscribe to our newsletter for exclusive deals, new arrivals, and tech tips.</p>
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 md:gap-3 max-w-md mx-auto">
               <input
                 type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="premium-input flex-1"
+                className="premium-input flex-1 text-sm"
               />
               <button type="submit" disabled={loading}
-                className="premium-button px-6 py-3 shrink-0">
+                className="premium-button px-5 py-2.5 md:px-6 md:py-3 shrink-0 text-sm">
                 {loading ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <><FiArrowRight className="w-4 h-4" /></>}
               </button>
             </form>
-            <p className="text-xs text-[#94a3b8] mt-4">No spam. Unsubscribe anytime.</p>
+            <p className="text-[10px] md:text-xs text-[#94a3b8] mt-3 md:mt-4">No spam. Unsubscribe anytime.</p>
           </div>
         </motion.div>
       </div>

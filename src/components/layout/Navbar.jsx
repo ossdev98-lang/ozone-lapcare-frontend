@@ -10,7 +10,8 @@ export default function Navbar() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { user } = useSelector(s => s.auth)
-  const { items } = useSelector(s => s.cart)
+  const { items, guestItems } = useSelector(s => s.cart)
+  const cartCount = (user ? items : guestItems).length
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -102,11 +103,11 @@ export default function Navbar() {
               <Link to="/cart">
                 <motion.div whileHover={{ scale: 1.05 }} className="relative w-9 h-9 rounded-xl flex items-center justify-center text-[#64748B] hover:text-primary hover:bg-white/60 transition-all duration-200">
                   <FiShoppingCart className="w-4.5 h-4.5" />
-                  {items.length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4.5 h-4.5 gradient-bg text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                      {items.length}
-                    </span>
-                  )}
+                  {cartCount > 0 && (
+                     <span className="absolute -top-1 -right-1 w-4.5 h-4.5 gradient-bg text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                       {cartCount}
+                     </span>
+                   )}
                 </motion.div>
               </Link>
 
@@ -153,7 +154,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link to="/login">
-                  <motion.span whileHover={{ scale: 1.02 }} className="premium-button text-xs px-4 py-2">
+                  <motion.span whileHover={{ scale: 1.02 }} className="premium-button text-[10px] md:text-xs px-2.5 md:px-4 py-1.5 md:py-2 whitespace-nowrap">
                     Sign In
                   </motion.span>
                 </Link>

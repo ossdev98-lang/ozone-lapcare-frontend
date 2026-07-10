@@ -29,7 +29,7 @@ export default function Hero() {
   const threshold = settings?.freeShippingThreshold || 999
 
   return (
-    <section className="relative min-h-[92vh] overflow-hidden bg-[#0b1220]">
+    <section className="relative min-h-[60vh] md:min-h-[75vh] overflow-hidden bg-[#0b1220]">
       <img
         src={heroImage}
         alt="Premium laptop setup"
@@ -38,11 +38,11 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,13,26,0.96)_0%,rgba(8,13,26,0.82)_42%,rgba(8,13,26,0.40)_100%)]" />
       <div className="absolute inset-0 opacity-[0.12]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)', backgroundSize: '56px 56px' }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-28 min-h-[92vh] flex items-center">
-        <div className="max-w-3xl">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-4 min-h-[60vh] md:min-h-[75vh] flex items-center">
+        <div className="max-w-3xl w-full">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-white/90 text-sm font-semibold backdrop-blur-md">
-              <FiCheckCircle className="w-4 h-4 text-cyan-300" />
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs font-semibold backdrop-blur-md">
+              <FiCheckCircle className="w-3.5 h-3.5 text-cyan-300" />
               Premium laptops, parts and repair in one place
             </span>
           </motion.div>
@@ -51,7 +51,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.08 }}
-            className="mt-6 text-2xl md:text-3xl lg:text-4xl font-black text-white leading-[1.08] tracking-tight max-w-3xl"
+            className="mt-4 text-xl md:text-2xl lg:text-3xl font-black text-white leading-[1.1] tracking-tight max-w-3xl"
           >
             Upgrade your laptop experience with confidence.
           </motion.h1>
@@ -60,7 +60,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.18 }}
-            className="mt-5 text-sm md:text-base text-slate-200/85 leading-relaxed max-w-2xl"
+            className="mt-3 text-xs md:text-sm text-slate-200/85 leading-relaxed max-w-2xl"
           >
             Shop genuine laptops, performance parts, accessories and expert repair services from a team that understands everyday users, students, creators and businesses.
           </motion.p>
@@ -69,12 +69,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.28 }}
-            className="mt-9 flex flex-wrap gap-4"
+            className="mt-5 grid grid-cols-2 gap-2.5 max-w-md"
           >
-            <Link to="/shop" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white text-[#0f172a] font-bold shadow-[0_20px_50px_rgba(255,255,255,0.16)] hover:-translate-y-0.5 transition-all duration-300">
-              Shop products <FiArrowRight className="w-5 h-5" />
+            <Link to="/shop" className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-[#0f172a] font-bold text-xs shadow-[0_12px_30px_rgba(255,255,255,0.16)] hover:-translate-y-0.5 transition-all duration-300">
+              Shop products <FiArrowRight className="w-3.5 h-3.5" />
             </Link>
-            <Link to="/repair" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white/10 border border-white/20 text-white font-bold backdrop-blur-md hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-300">
+            <Link to="/repair" className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white font-bold text-xs backdrop-blur-md hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-300">
               Book repair
             </Link>
           </motion.div>
@@ -83,14 +83,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.38 }}
-            className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl"
+            className="mt-4 grid grid-cols-3 gap-2 max-w-md"
           >
             {quickLinks.map(({ label, to, icon: Icon }) => (
-              <Link key={label} to={to} className="group flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-white/90 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-primary shadow-lg shadow-black/10">
-                  <Icon className="w-5 h-5" />
+              <Link key={label} to={to} className="group flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-2.5 py-2.5 text-white/90 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-primary shadow-lg shadow-black/10">
+                  <Icon className="w-4 h-4" />
                 </span>
-                <span className="text-sm font-semibold leading-tight">{label}</span>
+                <span className="text-[11px] font-semibold leading-tight">{label}</span>
               </Link>
             ))}
           </motion.div>
@@ -99,12 +99,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.48 }}
-            className="mt-11 grid grid-cols-2 sm:grid-cols-4 gap-5 max-w-2xl"
+            className="mt-6 grid grid-cols-4 gap-3 max-w-md"
           >
             {stats.map(([num, label]) => (
               <div key={label}>
-                <p className="text-2xl md:text-3xl font-black text-white">{num}</p>
-                <p className="mt-1 text-xs text-slate-300 uppercase tracking-wide font-semibold">{label}</p>
+                <p className="text-lg md:text-xl font-black text-white">{num}</p>
+                <p className="mt-0.5 text-[10px] text-slate-300 uppercase tracking-wide font-semibold leading-tight">{label}</p>
               </div>
             ))}
           </motion.div>
@@ -112,10 +112,10 @@ export default function Hero() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-[#08101f]/75 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 grid grid-cols-3 gap-3">
           {trustItems(threshold).map(([Icon, text]) => (
-            <div key={text} className="flex items-center justify-center gap-2 text-slate-200 text-sm font-semibold">
-              <Icon className="w-4 h-4 text-cyan-300" /> {text}
+            <div key={text} className="flex items-center justify-center gap-1.5 text-slate-200 text-xs font-semibold">
+              <Icon className="w-3.5 h-3.5 text-cyan-300" /> {text}
             </div>
           ))}
         </div>
@@ -123,6 +123,5 @@ export default function Hero() {
     </section>
   )
 }
-
 
 

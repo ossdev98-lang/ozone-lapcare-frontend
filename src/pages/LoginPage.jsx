@@ -8,7 +8,7 @@ import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../store/authSlice'
-import { fetchCart } from '../store/cartSlice'
+import { fetchCart, mergeGuestCart } from '../store/cartSlice'
 import Button from '../components/ui/Button'
 import toast from 'react-hot-toast'
 import logo from '../assets/logo.png'
@@ -40,6 +40,7 @@ export default function LoginPage() {
     const result = await dispatch(loginUser(data))
     if (loginUser.fulfilled.match(result)) {
       dispatch(fetchCart())
+      dispatch(mergeGuestCart())
       toast.success('Welcome back!')
       navigate(result.payload.role === 'ADMIN' ? '/admin' : from, { replace: true })
     }

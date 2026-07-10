@@ -1,9 +1,8 @@
 import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { motion, AnimatePresence } from 'framer-motion'
 import { fetchMe, setInitialized } from './store/authSlice'
-import { fetchCart } from './store/cartSlice'
+import { fetchCart, initGuestCart } from './store/cartSlice'
 
 // Layout
 import Layout from './components/layout/Layout'
@@ -73,6 +72,10 @@ function ScrollToTop() {
 export default function App() {
   const dispatch = useDispatch()
   const { user } = useSelector(s => s.auth)
+
+  useEffect(() => {
+    dispatch(initGuestCart())
+  }, [dispatch])
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')

@@ -3,13 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { FiShoppingCart, FiHeart, FiStar, FiTruck, FiShield, FiRefreshCw, FiShare2, FiMinus, FiPlus, FiChevronRight } from 'react-icons/fi'
+import { FiShoppingCart, FiHeart, FiStar, FiTruck, FiShield, FiRefreshCw, FiMinus, FiPlus, FiChevronRight } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { productAPI, reviewAPI, wishlistAPI, settingsAPI } from '../api/services'
 import { addToCart } from '../store/cartSlice'
 import { formatPrice, getDiscount } from '../utils/helpers'
 import ProductCard from '../components/product/ProductCard'
-import { ProductCardSkeleton } from '../components/ui/Skeleton'
 import toast from 'react-hot-toast'
 
 export default function ProductDetailPage() {
@@ -50,10 +49,19 @@ export default function ProductDetailPage() {
   const price = product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price
 
   const handleCart = async () => {
-    if (!user) { toast.error('Please login to add to cart'); return }
     setCartLoading(true)
     try {
-      await dispatch(addToCart({ productId: product.id, quantity: qty })).unwrap()
+      await dispatch(addToCart({
+        productId: product.id,
+        quantity: qty,
+        product: {
+          name: product.name,
+          thumbnail: product.thumbnail || product.images?.[0]?.url,
+          slug: product.slug,
+          price: product.isFlashSale && product.flashSalePrice ? product.flashSalePrice : product.price,
+          brand: product.brand
+        }
+      })).unwrap()
       toast.success(`${qty} item(s) added to cart!`)
     } catch (err) { toast.error(err || 'Failed to add') } finally { setCartLoading(false) }
   }

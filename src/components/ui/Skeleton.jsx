@@ -1,14 +1,14 @@
-export function ProductCardSkeleton() {
+export function ProductCardSkeleton({ compact } = {}) {
   return (
-    <div className="glass-card overflow-hidden">
-      <div className="skeleton h-52 rounded-none" />
-      <div className="p-4 space-y-3">
-        <div className="skeleton h-3 w-1/3 rounded" />
-        <div className="skeleton h-4 w-full rounded" />
-        <div className="skeleton h-4 w-2/3 rounded" />
+    <div className="glass-card overflow-hidden w-full">
+      <div className={`skeleton bg-slate-200 ${compact ? 'h-28' : 'h-52'} w-full`} />
+      <div className={`${compact ? 'p-2.5 space-y-2' : 'p-4 space-y-3'}`}>
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-2.5 w-1/3' : 'h-3 w-1/3'}`} />
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-full' : 'h-4 w-full'}`} />
+        <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-3 w-2/3' : 'h-4 w-2/3'}`} />
         <div className="flex justify-between items-center">
-          <div className="skeleton h-6 w-1/3 rounded" />
-          <div className="skeleton h-8 w-16 rounded-xl" />
+          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-4 w-1/3' : 'h-6 w-1/3'}`} />
+          <div className={`skeleton bg-slate-200 rounded ${compact ? 'h-7 w-12' : 'h-8 w-16'}`} />
         </div>
       </div>
     </div>
