@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FiSearch, FiHeart, FiShoppingCart, FiBell, FiUser, FiMenu, FiX, FiChevronDown, FiLogOut, FiPackage, FiSettings, FiGrid, FiTool } from 'react-icons/fi'
 import { logoutUser } from '../../store/authSlice'
 import toast from 'react-hot-toast'
+import { productAPI } from '../../api/services'
+import { formatPrice } from '../../utils/helpers'
 import logo from '../../assets/logo.png'
 export default function Navbar() {
   const dispatch = useDispatch()
@@ -17,6 +19,9 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false)
+  const suggestTimer = useRef(null)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef(null)
 
@@ -41,9 +46,47 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
+  const closeSearch = () => {
+    setSearchOpen(false)
+    setSearchQuery('')
+    setSuggestions([])
+    if (suggestTimer.current) clearTimeout(suggestTimer.current)
+  }
+
+  const runSearch = q => {
+    const term = (q ?? searchQuery).trim()
+    if (!term) return
+    setSearchOpen(false)
+    setSearchQuery('')
+    setSuggestions([])
+    if (suggestTimer.current) clearTimeout(suggestTimer.current)
+    navigate(`/shop?search=${encodeURIComponent(term)}`)
+  }
+
   const handleSearch = e => {
-    e.preventDefault()
-    if (searchQuery.trim()) { navigate(`/shop?search=${encodeURIComponent(searchQuery)}`); setSearchOpen(false); setSearchQuery('') }
+    if (e) e.preventDefault()
+    runSearch()
+  }
+
+  const goToProduct = slug => {
+    setSearchOpen(false)
+    setSearchQuery('')
+    setSuggestions([])
+    if (suggestTimer.current) clearTimeout(suggestTimer.current)
+    navigate(`/product/${slug}`)
+  }
+
+  const fetchSuggestions = q => {
+    if (suggestTimer.current) clearTimeout(suggestTimer.current)
+    const term = q.trim()
+    if (term.length < 2) { setSuggestions([]); return }
+    suggestTimer.current = setTimeout(async () => {
+      try {
+        setSuggestionsLoading(true)
+        const res = await productAPI.getAll({ search: term, limit: 6 })
+        setSuggestions(res.data.data || [])
+      } catch { setSuggestions([]) } finally { setSuggestionsLoading(false) }
+    }, 250)
   }
 
   const handleLogout = async () => {
@@ -199,7 +242,7 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
-            onClick={() => setSearchOpen(false)}
+            onClick={closeSearch}
           >
             <motion.div
               initial={{ y: -20, scale: 0.96 }} animate={{ y: 0, scale: 1 }} exit={{ y: -20, scale: 0.96 }}
@@ -211,14 +254,46 @@ export default function Navbar() {
                 <input
                   autoFocus
                   value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
+                  onChange={e => { setSearchQuery(e.target.value); fetchSuggestions(e.target.value) }}
                   placeholder="Search laptops, accessories, parts..."
                   className="flex-1 bg-transparent text-lg outline-none text-[#111827] placeholder-[#94a3b8]"
                 />
-                <button type="button" onClick={() => setSearchOpen(false)} className="p-2 rounded-xl hover:bg-white/40 transition-colors cursor-pointer">
+                <button type="button" onClick={closeSearch} className="p-2 rounded-xl hover:bg-white/40 transition-colors cursor-pointer">
                   <FiX className="w-5 h-5 text-[#64748B]" />
                 </button>
               </form>
+
+              {suggestionsLoading && (
+                <p className="mt-3 text-sm text-[#64748B] text-center">Searching...</p>
+              )}
+
+              {suggestions.length > 0 && (
+                <div className="mt-3 border-t border-white/20 pt-3 max-h-80 overflow-y-auto">
+                  {suggestions.map(p => (
+                    <button key={p.id} type="button" onClick={() => goToProduct(p.slug)}
+                      className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-white/50 transition-colors text-left">
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-slate-100 shrink-0">
+                        <img src={p.thumbnail || p.images?.[0]?.url || 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=100'} alt="" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-[#111827] truncate">{p.name}</p>
+                        <p className="text-xs text-[#64748B] truncate">{p.brand?.name || p.category?.name}</p>
+                      </div>
+                      <span className="text-sm font-bold text-[#111827] shrink-0">{formatPrice(p.price)}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {!suggestionsLoading && searchQuery.trim().length >= 2 && suggestions.length === 0 && (
+                <p className="mt-3 text-sm text-[#64748B] text-center">No products found for "{searchQuery}"</p>
+              )}
+
+              {searchQuery.trim().length >= 2 && (
+                <button type="button" onClick={() => runSearch(searchQuery)} className="mt-3 w-full text-center text-sm font-semibold text-primary hover:underline">
+                  See all results for "{searchQuery}"
+                </button>
+              )}
             </motion.div>
           </motion.div>
         )}
