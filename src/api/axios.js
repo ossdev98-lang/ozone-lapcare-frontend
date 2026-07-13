@@ -9,6 +9,7 @@ const authPathsWithoutRefresh = [
   '/auth/login',
   '/auth/register',
   '/auth/verify-email',
+  '/auth/resend-verification',
   '/auth/forgot-password',
   '/auth/reset-password',
   '/auth/refresh-token',

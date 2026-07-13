@@ -31,6 +31,18 @@ export const fetchMe = createAsyncThunk('auth/me', async (_, { rejectWithValue }
   }
 })
 
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (data, { rejectWithValue }) => {
+  try {
+    const res = await authAPI.verifyEmailOtp(data)
+    const { accessToken, refreshToken, user } = res.data.data
+    localStorage.setItem('accessToken', accessToken)
+    localStorage.setItem('refreshToken', refreshToken)
+    return user
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.message || 'Verification failed')
+  }
+})
+
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
   try { await authAPI.logout() } catch {}
   localStorage.removeItem('accessToken')
@@ -55,6 +67,9 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, { payload }) => { state.loading = false; state.error = payload })
       .addCase(fetchMe.fulfilled, (state, { payload }) => { state.user = payload; state.initialized = true })
       .addCase(fetchMe.rejected, state => { state.initialized = true })
+      .addCase(verifyEmail.pending, state => { state.loading = true; state.error = null })
+      .addCase(verifyEmail.fulfilled, (state, { payload }) => { state.loading = false; state.user = payload })
+      .addCase(verifyEmail.rejected, (state, { payload }) => { state.loading = false; state.error = payload })
       .addCase(logoutUser.fulfilled, state => { state.user = null })
   }
 })

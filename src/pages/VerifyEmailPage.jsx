@@ -2,8 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { FiCheckCircle, FiLock, FiMail, FiShield } from 'react-icons/fi'
+import { FiCheckCircle, FiLock, FiMail, FiShield, FiRefreshCw } from 'react-icons/fi'
 import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { verifyEmail } from '../store/authSlice'
+import { fetchCart, mergeGuestCart } from '../store/cartSlice'
 import { authAPI } from '../api/services'
 import Button from '../components/ui/Button'
 import logo from '../assets/logo.png'
@@ -17,18 +20,41 @@ const floatingOrbs = [
 
 export default function VerifyEmailPage() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { loading } = useSelector(s => s.auth)
   const [searchParams] = useSearchParams()
   const inputRefs = useRef([])
   const initialEmail = searchParams.get('email') || ''
   const [email, setEmail] = useState(initialEmail)
   const [otp, setOtp] = useState(Array(6).fill(''))
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [resendLoading, setResendLoading] = useState(false)
+  const [cooldown, setCooldown] = useState(30)
   const code = useMemo(() => otp.join(''), [otp])
 
   useEffect(() => {
     inputRefs.current[0]?.focus()
   }, [])
+
+  useEffect(() => {
+    if (cooldown <= 0) return
+    const timer = setTimeout(() => setCooldown(c => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [cooldown])
+
+  const handleResend = async () => {
+    if (cooldown > 0 || !email.trim()) return
+    setResendLoading(true)
+    try {
+      await authAPI.resendVerification({ email: email.trim() })
+      toast.success('A new code has been sent to your email')
+      setCooldown(30)
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to resend code')
+    } finally {
+      setResendLoading(false)
+    }
+  }
 
   const updateOtp = (value, index) => {
     if (!/^\d?$/.test(value)) return
@@ -69,16 +95,19 @@ export default function VerifyEmailPage() {
       return
     }
 
-    setLoading(true)
     setError('')
     try {
-      await authAPI.verifyEmailOtp({ email: email.trim(), otp: code })
-      toast.success('Email verified successfully!')
-      navigate('/login', { replace: true })
+      const result = await dispatch(verifyEmail({ email: email.trim(), otp: code }))
+      if (verifyEmail.fulfilled.match(result)) {
+        dispatch(fetchCart())
+        dispatch(mergeGuestCart())
+        toast.success('Email verified! Welcome to Ozone Lapcare 🎉')
+        navigate(result.payload.role === 'ADMIN' ? '/admin' : '/', { replace: true })
+        return
+      }
+      setError(result.payload || 'Verification failed. Please try again.')
     } catch (err) {
-      setError(err.response?.data?.message || 'Verification failed. Please try again.')
-    } finally {
-      setLoading(false)
+      setError('Verification failed. Please try again.')
     }
   }
 
@@ -209,6 +238,18 @@ export default function VerifyEmailPage() {
               >
                 Verify account -&gt;
               </Button>
+
+              <div className="mt-4 text-center">
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={cooldown > 0 || resendLoading || !email.trim()}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
+                >
+                  <FiRefreshCw className={resendLoading ? 'animate-spin' : ''} />
+                  {cooldown > 0 ? `Resend code in ${cooldown}s` : 'Resend verification code'}
+                </button>
+              </div>
             </motion.form>
 
             <div className="flex items-center gap-3 my-6">

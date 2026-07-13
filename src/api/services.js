@@ -12,6 +12,7 @@ export const authAPI = {
   resetPassword: d => api.post('/auth/reset-password', d),
   verifyEmail: token => api.get(`/auth/verify-email?token=${token}`),
   verifyEmailOtp: d => api.post('/auth/verify-email', d),
+  resendVerification: d => api.post('/auth/resend-verification', d),
 }
 
 // Products
