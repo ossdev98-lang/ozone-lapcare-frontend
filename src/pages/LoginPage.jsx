@@ -43,6 +43,9 @@ export default function LoginPage() {
       dispatch(mergeGuestCart())
       toast.success('Welcome back!')
       navigate(result.payload.role === 'ADMIN' ? '/admin' : from, { replace: true })
+    } else if (loginUser.rejected.match(result) && /verify your email/i.test(result.payload || '')) {
+      toast.error('Please verify your email to continue')
+      navigate('/verify-email?email=' + encodeURIComponent(data.email), { replace: true })
     }
   }
 
