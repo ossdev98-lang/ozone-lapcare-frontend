@@ -63,31 +63,33 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="font-semibold text-white mb-2.5 md:mb-4 text-xs uppercase tracking-wider">Contact Us</h4>
-            <ul className="space-y-1.5 md:space-y-2.5">
-              <li className="flex items-start gap-2 text-slate-400 text-[11px] md:text-sm">
-                <FiMapPin className="w-3.5 h-3.5 mt-0.5 text-secondary shrink-0" />
-                <span className="hidden md:inline">306 b-block, Silver Mall, RNT Marg Indore MP – 452001</span>
-                <span className="md:hidden">306 b-block, Silver Mall, Indore – 452001</span>
-              </li>
-              <li className="flex items-center gap-2 text-slate-400 text-[11px] md:text-sm">
-                <FiPhone className="w-3.5 h-3.5 text-secondary shrink-0" />
-                +91 8962872285
-              </li>
-              <li className="flex items-center gap-2 text-slate-400 text-[11px] md:text-sm">
-                <FiMail className="w-3.5 h-3.5 text-secondary shrink-0" />
-                support@ozoneLapcare.com
-              </li>
-            </ul>
-          </div>
+          {/* Contact + Business Hours (side by side on mobile, stacked on desktop col 4) */}
+          <div className="col-span-2 lg:col-span-1 flex flex-row gap-4 lg:flex-col lg:gap-3">
+            <div className="flex-1">
+              <h4 className="font-semibold text-white mb-2.5 md:mb-4 text-xs uppercase tracking-wider">Contact Us</h4>
+              <ul className="space-y-1.5 md:space-y-2.5">
+                <li className="flex items-start gap-2 text-slate-400 text-[11px] md:text-sm">
+                  <FiMapPin className="w-3.5 h-3.5 mt-0.5 text-secondary shrink-0" />
+                  <span className="hidden md:inline">306 b-block, Silver Mall, RNT Marg Indore MP – 452001</span>
+                  <span className="md:hidden">306 b-block, Silver Mall, Indore – 452001</span>
+                </li>
+                <li className="flex items-center gap-2 text-slate-400 text-[11px] md:text-sm">
+                  <FiPhone className="w-3.5 h-3.5 text-secondary shrink-0" />
+                  +91 8962872285
+                </li>
+                <li className="flex items-center gap-2 text-slate-400 text-[11px] md:text-sm">
+                  <FiMail className="w-3.5 h-3.5 text-secondary shrink-0" />
+                  support@ozoneLapcare.com
+                </li>
+              </ul>
+            </div>
 
-          {/* Business Hours */}
-          <div className="lg:col-start-4 lg:row-start-2 p-2.5 md:p-3 rounded-xl bg-white/5 border border-white/10">
-            <p className="text-[10px] text-slate-400 mb-0.5 md:mb-1">Business Hours</p>
-            <p className="text-xs md:text-sm font-medium leading-tight md:leading-normal">Mon - Sat: 10AM - 8PM</p>
-            <p className="text-[10px] md:text-xs text-slate-400">Sunday: 10AM – 5PM</p>
+            {/* Business Hours */}
+            <div className="flex-1 p-2.5 md:p-3 rounded-xl bg-white/5 border border-white/10">
+              <p className="text-[10px] text-slate-400 mb-0.5 md:mb-1">Business Hours</p>
+              <p className="text-xs md:text-sm font-medium leading-tight md:leading-normal">Mon - Sat: 10AM - 8PM</p>
+              <p className="text-[10px] md:text-xs text-slate-400">Sunday: 10AM – 5PM</p>
+            </div>
           </div>
         </div>
 
