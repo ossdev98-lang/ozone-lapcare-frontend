@@ -144,6 +144,15 @@ export const adAPI = {
   delete: id => api.delete(`/admin/ads/${id}`),
 }
 
+// Hero Banners
+export const heroBannerAPI = {
+  getActive: () => api.get('/hero-banners'),
+  getAll: () => api.get('/admin/hero-banners'),
+  create: d => api.post('/admin/hero-banners', d, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  update: (id, d) => api.put(`/admin/hero-banners/${id}`, d, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  delete: id => api.delete(`/admin/hero-banners/${id}`),
+}
+
 // Settings
 export const settingsAPI = {
   getPublic: () => api.get('/settings/public'),

@@ -36,7 +36,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -99,7 +99,7 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${location.pathname === '/' ? (scrolled ? 'glass-navbar' : 'bg-transparent') : 'glass-navbar'}`}
+        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'top-0' : 'top-9'} ${location.pathname === '/' ? (scrolled ? 'glass-navbar' : 'bg-transparent') : 'glass-navbar'}`}
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

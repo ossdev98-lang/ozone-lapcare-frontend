@@ -3,12 +3,14 @@ import { motion } from 'framer-motion'
 import { FaWhatsapp } from 'react-icons/fa'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import OfferSlider from '../home/OfferSlider'
 
 export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
+      <OfferSlider />
       <Navbar />
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-15">
         <Outlet />
       </main>
       <Footer />

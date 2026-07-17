@@ -45,6 +45,7 @@ const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'))
 const AdminReviews = lazy(() => import('./pages/admin/AdminReviews'))
 const AdminRepair = lazy(() => import('./pages/admin/AdminRepair'))
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'))
+const AdminHeroBanners = lazy(() => import('./pages/admin/AdminHeroBanners'))
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -140,6 +141,7 @@ export default function App() {
             <Route path="reviews" element={<AdminReviews />} />
             <Route path="repair" element={<AdminRepair />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="hero-banners" element={<AdminHeroBanners />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
