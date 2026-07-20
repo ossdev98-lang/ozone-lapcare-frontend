@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { authAPI } from '../api/services'
+import { authAPI, repairAPI } from '../api/services'
 
 export const loginUser = createAsyncThunk('auth/login', async (data, { rejectWithValue }) => {
   try {
@@ -48,6 +48,9 @@ export const logoutUser = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
 })
+export const mergeRepairBookings = createAsyncThunk('auth/mergeRepairBookings', async ({ email, name }, { rejectWithValue }) => {
+  try { return (await repairAPI.merge({ email, name })).data } catch (e) { return rejectWithValue(e.response?.data?.message) }
+})
 
 const authSlice = createSlice({
   name: 'auth',
@@ -71,6 +74,8 @@ const authSlice = createSlice({
       .addCase(verifyEmail.fulfilled, (state, { payload }) => { state.loading = false; state.user = payload })
       .addCase(verifyEmail.rejected, (state, { payload }) => { state.loading = false; state.error = payload })
       .addCase(logoutUser.fulfilled, state => { state.user = null })
+      .addCase(mergeRepairBookings.fulfilled, state => {})
+      .addCase(mergeRepairBookings.rejected, state => {})
   }
 })
 

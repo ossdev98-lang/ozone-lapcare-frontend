@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async'
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../store/authSlice'
+import { loginUser, mergeRepairBookings } from '../store/authSlice'
 import { fetchCart, mergeGuestCart } from '../store/cartSlice'
 import Button from '../components/ui/Button'
 import toast from 'react-hot-toast'
@@ -41,6 +41,7 @@ export default function LoginPage() {
     if (loginUser.fulfilled.match(result)) {
       dispatch(fetchCart())
       dispatch(mergeGuestCart())
+      dispatch(mergeRepairBookings({ email: result.payload.email, name: result.payload.name }))
       toast.success('Welcome back!')
       navigate(result.payload.role === 'ADMIN' ? '/admin' : from, { replace: true })
     } else if (loginUser.rejected.match(result) && /verify your email/i.test(result.payload || '')) {

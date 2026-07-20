@@ -697,7 +697,18 @@ export function RepairPage() {
                   <FiCheckCircle className="w-10 h-10 text-green-500" />
                 </div>
                 <h3 className="text-2xl font-black text-[#111827] mb-2">Booking Confirmed!</h3>
-                <p className="text-[#64748B] mb-8">We'll call you within 2 hours to confirm your appointment and schedule a pickup.</p>
+                <p className="text-[#64748B] mb-6">We'll call you within 2 hours to confirm your appointment and schedule a pickup.</p>
+                <div className="glass-card p-5 mb-8 text-left">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                      <FiMail className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-[#111827] mb-1">Guest Booking?</h4>
+                      <p className="text-xs text-[#64748B] leading-relaxed">To view your booking status, sign in or create an account using the same email address you provided while booking. Your booking will be automatically linked to your account.</p>
+                    </div>
+                  </div>
+                </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link to="/my-repairs" className="premium-button">View My Bookings</Link>
                   <button onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', laptopBrand: '', laptopModel: '', issue: '', serviceId: '' }) }}
