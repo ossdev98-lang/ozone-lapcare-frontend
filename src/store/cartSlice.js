@@ -55,8 +55,8 @@ export const clearCart = createAsyncThunk('cart/clear', async (_, { dispatch, ge
   if (!user) { localStorage.removeItem(GUEST_CART_KEY); dispatch(guestCartUpdated()); return }
   await cartAPI.clear(); dispatch(fetchCart())
 })
-export const removeCoupon = createAsyncThunk('cart/removeCoupon', async (_, { dispatch }) => {
-  try { await cartAPI.removeCoupon(); dispatch(fetchCart()) } catch { /* ignore */ }
+export const removeCoupon = createAsyncThunk('cart/removeCoupon', async (_, { dispatch, rejectWithValue }) => {
+  try { await cartAPI.removeCoupon(); dispatch(fetchCart()) } catch (e) { return rejectWithValue(e.response?.data?.message || 'Failed to remove coupon') }
 })
 export const applyCoupon = createAsyncThunk('cart/coupon', async (code, { dispatch, rejectWithValue }) => {
   try { const res = await cartAPI.applyCoupon({ code }); dispatch(fetchCart()); return res.data.data } catch (e) { return rejectWithValue(e.response?.data?.message) }

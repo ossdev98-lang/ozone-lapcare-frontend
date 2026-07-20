@@ -48,11 +48,19 @@ export default function CartPage() {
     } catch (err) { toast.error(err || 'Invalid coupon') } finally { setCouponLoading(false) }
   }
 
-  const handleRemoveCoupon = () => {
-    dispatch(removeCoupon())
-    setDiscount(0)
-    setCouponCode('')
-    toast.success('Coupon removed')
+  const handleRemoveCoupon = async () => {
+    if (couponLoading) return
+    setCouponLoading(true)
+    try {
+      await dispatch(removeCoupon()).unwrap()
+      setDiscount(0)
+      setCouponCode('')
+      toast.success('Coupon removed')
+    } catch (err) {
+      toast.error(err || 'Failed to remove coupon')
+    } finally {
+      setCouponLoading(false)
+    }
   }
 
   if (isGuest && displayItems.length === 0) {
