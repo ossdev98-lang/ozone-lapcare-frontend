@@ -114,7 +114,7 @@ export const repairAPI = {
   getMyOne: id => api.get(`/repair-bookings/${id}`),
   createPaymentOrder: id => api.post(`/repair-bookings/${id}/payment/create-order`),
   verifyPayment: (id, d) => api.post(`/repair-bookings/${id}/payment/verify`, d),
-  merge: ({ email, name }) => api.post('/repair-bookings/merge', { email, name }),
+  merge: email => api.post('/repair-bookings/merge', { email }),
 }
 
 // Notifications

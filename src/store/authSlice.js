@@ -48,8 +48,8 @@ export const logoutUser = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
 })
-export const mergeRepairBookings = createAsyncThunk('auth/mergeRepairBookings', async ({ email, name }, { rejectWithValue }) => {
-  try { return (await repairAPI.merge({ email, name })).data } catch (e) { return rejectWithValue(e.response?.data?.message) }
+export const mergeRepairBookings = createAsyncThunk('auth/mergeRepairBookings', async (email, { rejectWithValue }) => {
+  try { return (await repairAPI.merge(email)).data } catch (e) { return rejectWithValue(e.response?.data?.message) }
 })
 
 const authSlice = createSlice({

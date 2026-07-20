@@ -41,7 +41,7 @@ export default function LoginPage() {
     if (loginUser.fulfilled.match(result)) {
       dispatch(fetchCart())
       dispatch(mergeGuestCart())
-      dispatch(mergeRepairBookings({ email: result.payload.email, name: result.payload.name }))
+      dispatch(mergeRepairBookings(data.email))
       toast.success('Welcome back!')
       navigate(result.payload.role === 'ADMIN' ? '/admin' : from, { replace: true })
     } else if (loginUser.rejected.match(result) && /verify your email/i.test(result.payload || '')) {
