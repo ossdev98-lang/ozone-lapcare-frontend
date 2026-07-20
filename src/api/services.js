@@ -25,6 +25,9 @@ export const productAPI = {
   delete: id => api.delete(`/products/${id}`),
   uploadImages: (id, fd) => api.post(`/products/${id}/images`, fd),
   deleteImage: (id, imgId) => api.delete(`/products/${id}/images/${imgId}`),
+  markAsSold: id => api.post(`/products/${id}/mark-sold`),
+  deactivate: id => api.post(`/products/${id}/deactivate`),
+  activate: id => api.post(`/products/${id}/activate`),
 }
 
 // Categories
@@ -34,6 +37,8 @@ export const categoryAPI = {
   create: fd => api.post('/categories', fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
   update: (id, fd) => api.put(`/categories/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
   delete: id => api.delete(`/categories/${id}`),
+  deactivate: id => api.post(`/categories/${id}/deactivate`),
+  activate: id => api.post(`/categories/${id}/activate`),
 }
 
 // Brands

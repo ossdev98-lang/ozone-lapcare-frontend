@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload, FiSearch, FiEye, FiPackage, FiTag, FiStar, FiZap, FiFilter, FiFileText } from 'react-icons/fi'
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload, FiSearch, FiEye, FiPackage, FiTag, FiStar, FiZap, FiFilter, FiFileText, FiPower, FiMoreVertical } from 'react-icons/fi'
 import { productAPI, categoryAPI, brandAPI } from '../../api/services'
 import { formatPrice } from '../../utils/helpers'
 import Button from '../../components/ui/Button'
@@ -39,7 +39,10 @@ export default function AdminProducts() {
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [imgFiles, setImgFiles] = useState([])
+  const [existingImages, setExistingImages] = useState([])
+  const [removedImageIds, setRemovedImageIds] = useState([])
   const [bulkSpecText, setBulkSpecText] = useState('')
+  const [actionMenuId, setActionMenuId] = useState(null)
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin-products', page, search, status, category, brand, condition, isFeatured, isFlashSale],
@@ -63,16 +66,24 @@ export default function AdminProducts() {
     flashSale: products.filter(p => p.isFlashSale).length,
   }
 
+  useEffect(() => {
+    const handleClick = () => setActionMenuId(null)
+    if (actionMenuId !== null) document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [actionMenuId])
+
   const resetFilters = () => {
     setSearch(''); setStatus(''); setCategory(''); setBrand(''); setCondition('');
     setIsFeatured(''); setIsFlashSale(''); setPage(1);
   }
 
-  const openCreate = () => { setEditing(null); setForm(emptyForm); setImgFiles([]); setModal(true) }
+  const openCreate = () => { setEditing(null); setForm(emptyForm); setImgFiles([]); setExistingImages([]); setRemovedImageIds([]); setModal(true) }
   const openEdit = p => {
     setEditing(p)
     setForm({ ...p, tags: p.tags?.join(', ') || '', specifications: p.specifications || [], images: [] })
     setImgFiles([])
+    setExistingImages(p.images || [])
+    setRemovedImageIds([])
     setModal(true)
   }
   const openView = p => { setViewProduct(p); setViewModal(true) }
@@ -111,6 +122,14 @@ export default function AdminProducts() {
             toast.error('Product updated but image upload failed')
           }
         }
+        // Delete removed images
+        if (removedImageIds.length > 0) {
+          try {
+            await Promise.all(removedImageIds.map(id => productAPI.deleteImage(editing.id, id)))
+          } catch {
+            toast.error('Some images could not be deleted')
+          }
+        }
         qc.invalidateQueries(['admin-products'])
         setModal(false)
         toast.success('Product updated!')
@@ -146,6 +165,36 @@ export default function AdminProducts() {
       toast.success('Product deleted')
     } catch {
       toast.error('Delete failed')
+    }
+  }
+  const handleMarkSold = async id => {
+    if (!confirm('Mark this product as sold? Stock will be set to 0.')) return
+    try {
+      await productAPI.markAsSold(id)
+      qc.invalidateQueries(['admin-products'])
+      toast.success('Marked as sold')
+    } catch {
+      toast.error('Failed')
+    }
+  }
+  const handleDeactivate = async id => {
+    if (!confirm('Deactivate this product?')) return
+    try {
+      await productAPI.deactivate(id)
+      qc.invalidateQueries(['admin-products'])
+      toast.success('Product deactivated')
+    } catch {
+      toast.error('Failed')
+    }
+  }
+  const handleActivate = async id => {
+    if (!confirm('Activate this product?')) return
+    try {
+      await productAPI.activate(id)
+      qc.invalidateQueries(['admin-products'])
+      toast.success('Product activated')
+    } catch {
+      toast.error('Failed')
     }
   }
 
@@ -388,16 +437,25 @@ export default function AdminProducts() {
                           </div>
                         </td>
                         <td>
-                          <div className="flex items-center gap-2">
-                            <button onClick={() => openView(p)} className="p-2 rounded-xl hover:bg-white/60 text-[#64748B] hover:text-primary transition-all cursor-pointer" title="View">
-                              <FiEye className="w-4 h-4" />
+                          <div className="relative">
+                            <button onClick={e => { e.stopPropagation(); setActionMenuId(actionMenuId === p.id ? null : p.id) }} className="p-2 rounded-xl hover:bg-white/60 text-[#64748B] hover:text-primary transition-all cursor-pointer">
+                              <FiMoreVertical className="w-4 h-4" />
                             </button>
-                            <button onClick={() => openEdit(p)} className="p-2 rounded-xl hover:bg-white/60 text-[#64748B] hover:text-primary transition-all cursor-pointer">
-                              <FiEdit2 className="w-4 h-4" />
-                            </button>
-                            <button onClick={() => handleDelete(p.id)} className="p-2 rounded-xl hover:bg-red-50 text-[#64748B] hover:text-red-500 transition-all cursor-pointer">
-                              <FiTrash2 className="w-4 h-4" />
-                            </button>
+                            {actionMenuId === p.id && (
+                              <ul className="absolute right-0 top-full mt-1 w-44 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/40 overflow-hidden z-50 py-1.5 space-y-0.5">
+                                <li><button onClick={() => { openView(p); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-[#374151] hover:bg-primary/5 hover:text-primary transition-colors flex items-center gap-3 cursor-pointer"><FiEye className="w-4 h-4" />View</button></li>
+                                <li><button onClick={() => { openEdit(p); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-[#374151] hover:bg-primary/5 hover:text-primary transition-colors flex items-center gap-3 cursor-pointer"><FiEdit2 className="w-4 h-4" />Edit</button></li>
+                                {p.status === 'inactive' ? (
+                                  <li><button onClick={() => { handleActivate(p.id); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center gap-3 cursor-pointer"><FiPower className="w-4 h-4" />Activate</button></li>
+                                ) : (
+                                  <>
+                                    <li><button onClick={() => { handleMarkSold(p.id); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-amber-600 hover:bg-amber-50 transition-colors flex items-center gap-3 cursor-pointer"><FiPackage className="w-4 h-4" />Mark Sold</button></li>
+                                    <li><button onClick={() => { handleDeactivate(p.id); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-3 cursor-pointer"><FiPower className="w-4 h-4" />Deactivate</button></li>
+                                  </>
+                                )}
+                                <li className="border-t border-white/30 pt-1.5 mt-1"><button onClick={() => { handleDelete(p.id); setActionMenuId(null) }} className="w-full px-4 py-2.5 text-left text-sm text-red-500 hover:bg-red-50 transition-colors flex items-center gap-3 cursor-pointer"><FiTrash2 className="w-4 h-4" />Delete</button></li>
+                              </ul>
+                            )}
                           </div>
                         </td>
                       </motion.tr>
@@ -584,15 +642,15 @@ export default function AdminProducts() {
                             />
                           </div>
                           
-                          <div>
-                            <label className="block text-sm font-medium text-[#374151] mb-1.5">Brand *</label>
-                            <Dropdown
-                              placeholder="Select Brand"
-                              value={form.brandId}
-                              onChange={v => setForm(f => ({ ...f, brandId: v }))}
-                              options={brands?.map(b => ({ value: b.id.toString(), label: b.name })) || []}
-                            />
-                          </div>
+                           <div>
+                             <label className="block text-sm font-medium text-[#374151] mb-1.5">Brand</label>
+                             <Dropdown
+                               placeholder="Select Brand"
+                               value={form.brandId}
+                               onChange={v => setForm(f => ({ ...f, brandId: v }))}
+                               options={[{ value: '', label: 'All' }, ...(brands?.map(b => ({ value: b.id.toString(), label: b.name })) || [])]}
+                             />
+                           </div>
                           
                           <Input label="Selling Price (₹) *" type="number" required value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
                           <Input label="Compare Price (₹)" type="number" value={form.comparePrice} onChange={e => setForm(f => ({ ...f, comparePrice: e.target.value }))} />
@@ -698,11 +756,41 @@ export default function AdminProducts() {
                               <p className="text-sm font-medium text-[#111827]">Click to select images</p>
                               <p className="text-xs text-[#64748B] mt-1">PNG, JPG, GIF up to 5MB each</p>
                             </div>
-                            <input type="file" multiple accept="image/*" className="hidden" onChange={e => setImgFiles(Array.from(e.target.files))} />
+                            <input type="file" multiple accept="image/*" className="hidden" onChange={e => setImgFiles([...imgFiles, ...Array.from(e.target.files)])} />
                           </label>
+                          
+                          {/* Existing Images Preview */}
+                          {existingImages.filter(img => !removedImageIds.includes(img.id)).length > 0 && (
+                            <div className="mt-4">
+                              <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2">Existing Images</p>
+                              <div className="flex flex-wrap gap-3">
+                                {existingImages.filter(img => !removedImageIds.includes(img.id)).map(img => (
+                                  <div key={img.id} className="relative group">
+                                    <img src={img.url} alt="" className="w-24 h-24 rounded-xl object-cover border border-white/40 shadow-sm" />
+                                    <button type="button" onClick={() => setRemovedImageIds(ids => [...ids, img.id])} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-md">
+                                      <FiX className="w-3 h-3" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* New Files Preview */}
                           {imgFiles.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-2">
-                              {imgFiles.map((f, i) => <span key={i} className="px-3 py-1 rounded-xl bg-white/60 text-xs text-[#374151]">{f.name}</span>)}
+                            <div className="mt-4">
+                              <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2">New Images</p>
+                              <div className="flex flex-wrap gap-3">
+                                {imgFiles.map((f, i) => (
+                                  <div key={i} className="relative group">
+                                    <img src={URL.createObjectURL(f)} alt="" className="w-24 h-24 rounded-xl object-cover border border-white/40 shadow-sm" />
+                                    <button type="button" onClick={() => setImgFiles(files => files.filter((_, idx) => idx !== i))} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-md">
+                                      <FiX className="w-3 h-3" />
+                                    </button>
+                                    <p className="text-[10px] text-[#64748B] mt-1 truncate w-24">{f.name}</p>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           )}
                         </div>

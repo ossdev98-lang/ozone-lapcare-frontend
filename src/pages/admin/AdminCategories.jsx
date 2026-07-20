@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload } from 'react-icons/fi'
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiUpload, FiPower } from 'react-icons/fi'
 import { categoryAPI, brandAPI } from '../../api/services'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
@@ -64,6 +64,16 @@ export function AdminCategories() {
     try { await categoryAPI.delete(id); qc.invalidateQueries(['categories']); toast.success('Deleted') }
     catch { toast.error('Delete failed') }
   }
+  const handleDeactivate = async id => {
+    if (!confirm('Deactivate this category?')) return
+    try { await categoryAPI.deactivate(id); qc.invalidateQueries(['categories']); toast.success('Deactivated') }
+    catch { toast.error('Failed') }
+  }
+  const handleActivate = async id => {
+    if (!confirm('Activate this category?')) return
+    try { await categoryAPI.activate(id); qc.invalidateQueries(['categories']); toast.success('Activated') }
+    catch { toast.error('Failed') }
+  }
 
   return (
     <>
@@ -88,6 +98,15 @@ export function AdminCategories() {
                     <td>
                       <div className="flex gap-2">
                         <button onClick={() => openEdit(c)} className="p-2 rounded-xl hover:bg-white/60 text-[#64748B] hover:text-primary cursor-pointer"><FiEdit2 className="w-4 h-4" /></button>
+                        {c.isActive ? (
+                          <button onClick={() => handleDeactivate(c.id)} className="p-2 rounded-xl hover:bg-slate-100 text-[#64748B] hover:text-slate-600 cursor-pointer" title="Deactivate">
+                            <FiPower className="w-4 h-4" />
+                          </button>
+                        ) : (
+                          <button onClick={() => handleActivate(c.id)} className="p-2 rounded-xl hover:bg-emerald-50 text-[#64748B] hover:text-emerald-600 cursor-pointer" title="Activate">
+                            <FiPower className="w-4 h-4" />
+                          </button>
+                        )}
                         <button onClick={() => handleDelete(c.id)} className="p-2 rounded-xl hover:bg-red-50 text-[#64748B] hover:text-red-500 cursor-pointer"><FiTrash2 className="w-4 h-4" /></button>
                       </div>
                     </td>

@@ -9,6 +9,7 @@ export default function Dropdown({ label, value, onChange, options, placeholder 
   const panelRef = useRef(null)
 
   const selected = options?.find(o => o.value === value)
+  const hasClearOption = options?.some(o => o.value === '')
 
   useEffect(() => {
     const handle = (e) => {
@@ -43,15 +44,17 @@ export default function Dropdown({ label, value, onChange, options, placeholder 
         style={{ top: coords.top, left: coords.left, width: coords.width, zIndex: 9999 }}
       >
         <ul className="space-y-0.5">
-          <li>
-            <button
-              type="button"
-              onClick={() => { onChange(''); setOpen(false) }}
-              className="w-full px-3 py-2 rounded-lg text-sm text-left hover:bg-white/60 text-[#64748B]"
-            >
-              {placeholder}
-            </button>
-          </li>
+          {!hasClearOption && (
+            <li>
+              <button
+                type="button"
+                onClick={() => { onChange(''); setOpen(false) }}
+                className="w-full px-3 py-2 rounded-lg text-sm text-left hover:bg-white/60 text-[#64748B]"
+              >
+                {placeholder}
+              </button>
+            </li>
+          )}
           {options?.map(opt => (
             <li key={opt.value}>
               <button
