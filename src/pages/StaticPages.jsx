@@ -41,7 +41,11 @@ export default function StaticPages({ page = 'warranty' }) {
   const data = content[page] || content.warranty
   return (
     <>
-      <Helmet><title>{data.title} – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>{data.title} – Ozone Lapcare</title>
+        <meta name="description" content={data.sections[0]?.body?.slice(0, 160) || `Read our ${data.title.toLowerCase()} at Ozone Lapcare.`} />
+        <link rel="canonical" href={`${window.location.origin}/${page}`} />
+      </Helmet>
       <div className="bg-[#0F172A] py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-black text-white">

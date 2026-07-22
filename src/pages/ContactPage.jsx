@@ -29,7 +29,18 @@ export default function ContactPage() {
 
   return (
     <>
-      <Helmet><title>Contact Us – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>Contact Us – Ozone Lapcare</title>
+        <meta name="description" content="Contact Ozone Lapcare for laptop sales, repair services, and support. Call +91 8962872285 or visit our store in Indore." />
+        <link rel="canonical" href={`${window.location.origin}/contact`} />
+        <meta property="og:title" content="Contact Us – Ozone Lapcare" />
+        <meta property="og:description" content="Contact Ozone Lapcare for laptop sales, repair services, and support." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/contact`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Us – Ozone Lapcare" />
+        <meta name="twitter:description" content="Contact Ozone Lapcare for laptop sales, repair services, and support." />
+      </Helmet>
 
       <div className="bg-[#0F172A] py-10 md:py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at 40% 50%, #2875B7, transparent 60%)' }} />

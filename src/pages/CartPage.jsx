@@ -94,7 +94,11 @@ export default function CartPage() {
 
   return (
     <>
-      <Helmet><title>Cart – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>Shopping Cart – Ozone Lapcare</title>
+        <meta name="description" content="View and manage your shopping cart at Ozone Lapcare. Review your selected laptops, accessories and parts before checkout." />
+        <link rel="canonical" href={`${window.location.origin}/cart`} />
+      </Helmet>
       <div className="min-h-screen py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-black text-[#111827] mb-2">Shopping Cart <span className="text-[#64748B] text-lg font-normal">({displayItems.length} items)</span></h1>

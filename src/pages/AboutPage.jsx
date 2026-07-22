@@ -52,7 +52,18 @@ const whyChoose = [
 export default function AboutPage() {
   return (
     <>
-      <Helmet><title>About Us – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>About Us – Ozone Lapcare</title>
+        <meta name="description" content="Ozone Lapcare is your trusted partner for laptop sales, refurbished laptops, genuine accessories and expert repair services in India." />
+        <link rel="canonical" href={`${window.location.origin}/about`} />
+        <meta property="og:title" content="About Us – Ozone Lapcare" />
+        <meta property="og:description" content="Your trusted partner for laptop sales, refurbished laptops, genuine accessories and expert repair services." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/about`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Us – Ozone Lapcare" />
+        <meta name="twitter:description" content="Your trusted partner for laptop sales, refurbished laptops, genuine accessories and expert repair services." />
+      </Helmet>
 
       {/* Hero */}
       <div className="bg-[#0F172A] py-10 md:py-16 relative overflow-hidden">

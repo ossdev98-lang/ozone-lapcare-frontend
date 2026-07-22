@@ -73,6 +73,15 @@ function ScrollToTop() {
 export default function App() {
   const dispatch = useDispatch()
   const { user } = useSelector(s => s.auth)
+  const location = useLocation()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-ZXKPGCMNY1', {
+        page_path: location.pathname + location.search
+      })
+    }
+  }, [location])
 
   useEffect(() => {
     dispatch(initGuestCart())

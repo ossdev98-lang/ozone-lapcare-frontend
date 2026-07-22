@@ -41,8 +41,18 @@ export default function ProductDetailPage() {
     enabled: !!product?.id
   })
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center"><div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
-  if (!product) return <div className="min-h-screen flex items-center justify-center text-[#64748B]">Product not found</div>
+  if (isLoading) return (
+    <>
+      <Helmet><title>Loading... – Ozone Lapcare</title></Helmet>
+      <div className="min-h-screen flex items-center justify-center"><div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
+    </>
+  )
+  if (!product) return (
+    <>
+      <Helmet><title>Product Not Found – Ozone Lapcare</title></Helmet>
+      <div className="min-h-screen flex items-center justify-center text-[#64748B]">Product not found</div>
+    </>
+  )
 
   const images = product.images?.length ? product.images : [{ url: product.thumbnail || 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600' }]
   const discount = getDiscount(product.price, product.comparePrice)
@@ -81,8 +91,33 @@ export default function ProductDetailPage() {
   return (
     <>
       <Helmet>
-        <title>{product.name} – Ozone Lapcare</title>
+        <title>{(product?.name || 'Product') + ' – Ozone Lapcare'}</title>
         <meta name="description" content={product.shortDescription || product.description} />
+        <link rel="canonical" href={`${window.location.origin}/product/${product.slug}`} />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.shortDescription || product.description} />
+        <meta property="og:image" content={product.images?.[0]?.url || product.thumbnail || ''} />
+        <meta property="og:url" content={`${window.location.origin}/product/${product.slug}`} />
+        <meta property="og:type" content="product" />
+        <meta property="og:site_name" content="Ozone Lapcare" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.name} />
+        <meta name="twitter:description" content={product.shortDescription || product.description} />
+        <meta name="twitter:image" content={product.images?.[0]?.url || product.thumbnail || ''} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": product.name,
+          "description": product.shortDescription || product.description,
+          "image": product.images?.map(img => img.url) || product.thumbnail,
+          "brand": { "@type": "Brand", "name": product.brand?.name },
+          "offers": {
+            "@type": "Offer",
+            "price": price,
+            "priceCurrency": "INR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+          }
+        })}</script>
       </Helmet>
 
       <div className="min-h-screen py-4 md:py-10">

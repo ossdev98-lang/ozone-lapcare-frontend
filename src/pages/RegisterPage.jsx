@@ -53,7 +53,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <Helmet><title>Create Account - Ozone Lapcare</title></Helmet>
+      <Helmet><title>Create Account – Ozone Lapcare</title></Helmet>
 
       <div className="min-h-screen w-screen relative overflow-hidden bg-gradient-to-br from-[#FCFBF8] via-[#F8F6F3] to-[#F3F4F6] flex items-center justify-center py-8">
         {floatingOrbs.map((orb, i) => (

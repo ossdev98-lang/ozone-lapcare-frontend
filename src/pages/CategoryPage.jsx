@@ -55,10 +55,18 @@ export default function CategoryPage() {
     setPage(1)
   }, [searchParams])
 
-  const { data: category } = useQuery({
+   const { data: category } = useQuery({
     queryKey: ['category', slug],
     queryFn: () => categoryAPI.getOne(slug).then(r => r.data.data)
   })
+
+  useEffect(() => {
+    if (category?.name) {
+      document.title = `${category.name} – Ozone Lapcare`
+    } else if (slug) {
+      document.title = `${slug.charAt(0).toUpperCase() + slug.slice(1)} – Ozone Lapcare`
+    }
+  }, [category, slug])
 
   const { data: brands } = useQuery({
     queryKey: ['brands'],
@@ -118,7 +126,18 @@ export default function CategoryPage() {
 
   return (
     <>
-      <Helmet><title>{category?.name || 'Category'} – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>{category?.name || slug || 'Category'} – Ozone Lapcare</title>
+        <meta name="description" content={`Browse ${category?.name || slug || 'products'} at Ozone Lapcare. Find the best ${category?.name || slug || 'products'} with genuine warranty and fast delivery.`} />
+        <link rel="canonical" href={`${window.location.origin}/category/${slug}`} />
+        <meta property="og:title" content={category?.name || slug || 'Category'} />
+        <meta property="og:description" content={`Browse ${category?.name || slug || 'products'} at Ozone Lapcare.`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/category/${slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={category?.name || slug || 'Category'} />
+        <meta name="twitter:description" content={`Browse ${category?.name || slug || 'products'} at Ozone Lapcare.`} />
+      </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/40">
         <section className="relative overflow-hidden border-b border-slate-100 bg-[#0b1220]">

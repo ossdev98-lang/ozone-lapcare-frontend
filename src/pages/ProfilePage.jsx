@@ -596,7 +596,18 @@ export function RepairPage() {
 
   return (
     <>
-      <Helmet><title>Repair Services – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>Repair Services – Ozone Lapcare</title>
+        <meta name="description" content="Book professional laptop repair services at Ozone Lapcare. Expert technicians, genuine parts, and warranty on every repair job." />
+        <link rel="canonical" href={`${window.location.origin}/repair`} />
+        <meta property="og:title" content="Repair Services – Ozone Lapcare" />
+        <meta property="og:description" content="Book professional laptop repair services. Expert technicians, genuine parts, and warranty on every job." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/repair`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Repair Services – Ozone Lapcare" />
+        <meta name="twitter:description" content="Book professional laptop repair services. Expert technicians, genuine parts, and warranty on every job." />
+      </Helmet>
       <div className="min-h-screen bg-[#f8f9fc]">
 
         {/* ── Hero ── */}

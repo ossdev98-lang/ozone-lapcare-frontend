@@ -95,6 +95,15 @@ export default function HomePage() {
       <Helmet>
         <title>Ozone Lapcare - Your Laptop Care Experts | Buy Laptops Online India</title>
         <meta name="description" content="Buy laptops, gaming laptops, refurbished laptops, parts and accessories. Expert repair services and dependable support in India." />
+        <link rel="canonical" href={window.location.origin} />
+        <meta property="og:title" content="Ozone Lapcare - Your Laptop Care Experts" />
+        <meta property="og:description" content="Buy laptops, gaming laptops, refurbished laptops, parts and accessories. Expert repair services and dependable support in India." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.origin} />
+        <meta property="og:site_name" content="Ozone Lapcare" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Ozone Lapcare - Your Laptop Care Experts" />
+        <meta name="twitter:description" content="Buy laptops, gaming laptops, refurbished laptops, parts and accessories. Expert repair services and dependable support in India." />
       </Helmet>
       <Hero />
       <InfoBar />

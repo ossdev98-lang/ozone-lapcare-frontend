@@ -217,7 +217,17 @@ export default function ShopPage() {
 
   return (
     <>
-      <Helmet><title>Shop - Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>Shop All Products – Ozone Lapcare</title>
+        <meta name="description" content="Browse our full range of laptops, refurbished laptops, parts and accessories. Filter by brand, price, and condition." />
+        <link rel="canonical" href={window.location.origin + window.location.pathname + window.location.search} />
+        <meta property="og:title" content="Shop All Products – Ozone Lapcare" />
+        <meta property="og:description" content="Browse our full range of laptops, refurbished laptops, parts and accessories." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Shop All Products – Ozone Lapcare" />
+        <meta name="twitter:description" content="Browse our full range of laptops, refurbished laptops, parts and accessories." />
+      </Helmet>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/40">
         <section className="relative overflow-hidden border-b border-slate-100 bg-[#0b1220]">
           <div className="absolute inset-0 opacity-[0.10]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.20) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.20) 1px, transparent 1px)', backgroundSize: '54px 54px' }} />

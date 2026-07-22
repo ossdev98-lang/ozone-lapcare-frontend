@@ -6,7 +6,7 @@ import { FiChevronRight } from 'react-icons/fi'
 import { brandAPI, productAPI } from '../api/services'
 import ProductCard from '../components/product/ProductCard'
 import { ProductCardSkeleton } from '../components/ui/Skeleton'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function BrandPage() {
   const { slug } = useParams()
@@ -16,6 +16,14 @@ export default function BrandPage() {
     queryKey: ['brand', slug],
     queryFn: () => brandAPI.getOne(slug).then(r => r.data.data)
   })
+
+  useEffect(() => {
+    if (brand?.name) {
+      document.title = `${brand.name} Laptops – Ozone Lapcare`
+    } else if (slug) {
+      document.title = `${slug.charAt(0).toUpperCase() + slug.slice(1)} – Ozone Lapcare`
+    }
+  }, [brand, slug])
 
   const { data, isLoading } = useQuery({
     queryKey: ['products', 'brand', slug, page],
@@ -28,7 +36,18 @@ export default function BrandPage() {
 
   return (
     <>
-      <Helmet><title>{brand?.name || 'Brand'} Laptops – Ozone Lapcare</title></Helmet>
+      <Helmet>
+        <title>{brand?.name || slug || 'Brand'} Laptops – Ozone Lapcare</title>
+        <meta name="description" content={`Shop ${brand?.name || slug || 'brand'} laptops and accessories at Ozone Lapcare. Genuine products with warranty and expert support.`} />
+        <link rel="canonical" href={`${window.location.origin}/brand/${slug}`} />
+        <meta property="og:title" content={`${brand?.name || slug || 'Brand'} Laptops – Ozone Lapcare`} />
+        <meta property="og:description" content={`Shop ${brand?.name || slug || 'brand'} laptops and accessories at Ozone Lapcare.`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/brand/${slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${brand?.name || slug || 'Brand'} Laptops – Ozone Lapcare`} />
+        <meta name="twitter:description" content={`Shop ${brand?.name || slug || 'brand'} laptops and accessories at Ozone Lapcare.`} />
+      </Helmet>
 
       <div className="bg-gradient-to-br from-[#0F172A] to-[#1e2d4a] py-10 md:py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, #2BB7B2, transparent 60%)' }} />
